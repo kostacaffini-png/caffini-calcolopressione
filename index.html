@@ -346,7 +346,7 @@ const tabColorati = document.getElementById('tabColorati');
 
 const I18N = {
   it: {
-    modeTitle: { rosa: 'Calcolo Pressione / Piastrine Rosa', colorati: 'Calcolo Pressione / Ugelli Colorati' },
+    modeTitle: 'Calcolo Pressione',
     tabRosa: 'PIASTRINE CERAMICA &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">UGELLI A NORMA ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -368,7 +368,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'convogl. cieco' : `convogl. ${conv}`,
   },
   en: {
-    modeTitle: { rosa: 'Pressure Calculation / Ceramic Plates', colorati: 'Pressure Calculation / ISO Standard Nozzles' },
+    modeTitle: 'Pressure Calculation',
     tabRosa: 'CERAMIC PLATES &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">ISO STANDARD NOZZLES</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -390,7 +390,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blind deflector' : `deflector ${conv}`,
   },
   es: {
-    modeTitle: { rosa: 'Cálculo de Presión / Placas de Cerámica', colorati: 'Cálculo de Presión / Boquillas Norma ISO' },
+    modeTitle: 'Cálculo de Presión',
     tabRosa: 'PLACAS DE CERÁMICA &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BOQUILLAS NORMA ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -412,7 +412,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'ciego' ? 'deflector ciego' : `deflector ${conv}`,
   },
   de: {
-    modeTitle: { rosa: 'Druckberechnung / Keramikplättchen', colorati: 'Druckberechnung / Düsen nach ISO-Norm' },
+    modeTitle: 'Druckberechnung',
     tabRosa: 'KERAMIKPLÄTTCHEN &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">DÜSEN NACH ISO-NORM</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -434,7 +434,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blindes Leitblech' : `Leitblech ${conv}`,
   },
   fr: {
-    modeTitle: { rosa: 'Calcul de Pression / Pastilles Céramique', colorati: 'Calcul de Pression / Buses Norme ISO' },
+    modeTitle: 'Calcul de Pression',
     tabRosa: 'PASTILLES CÉRAMIQUE &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BUSES NORME ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -501,7 +501,7 @@ function switchMode(mode){
   currentMode = mode;
   tabRosa.classList.toggle('active', mode === 'rosa');
   tabColorati.classList.toggle('active', mode === 'colorati');
-  if (modeTitle) modeTitle.textContent = I18N[currentLang].modeTitle[mode];
+  // Il titolo rimane pulito e non viene modificato dal cambio di tab
   renderGrid(mode);
   recalc();
 }
@@ -510,12 +510,10 @@ function applyLanguage(lang){
   currentLang = lang;
   const t = I18N[lang];
   
-  // Update active class for all language buttons
   document.querySelectorAll('.lang-toggle .lang-btn').forEach(btn => {
     btn.classList.toggle('active', btn.id === 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1));
   });
 
-  // Usa innerHTML per preservare i tag <span> interni
   document.getElementById('tabRosaLabel').innerHTML = t.tabRosa;
   document.getElementById('tabColoratiLabel').innerHTML = t.tabColorati;
 
@@ -528,19 +526,16 @@ function applyLanguage(lang){
   document.getElementById('lblGettiAttivi').textContent = t.gettiAttivi;
   document.getElementById('resetBtn').textContent = t.reset;
   document.getElementById('footerNote').innerHTML = t.footer;
-  if (modeTitle) modeTitle.textContent = t.modeTitle[currentMode];
   
-  // Update document title based on selected language
+  // Titolo pulito in alto
+  if (modeTitle) modeTitle.textContent = t.modeTitle;
+  
+  // Titolo della scheda/pagina del browser
   let titleText = 'CAFFINI - Calcolo pressione';
-  if (lang === 'en') {
-    titleText = 'CAFFINI - Pressure calculation';
-  } else if (lang === 'es') {
-    titleText = 'CAFFINI - Cálculo de presión';
-  } else if (lang === 'de') {
-    titleText = 'CAFFINI - Druckberechnung';
-  } else if (lang === 'fr') {
-    titleText = 'CAFFINI - Calcul de pression';
-  }
+  if (lang === 'en') titleText = 'CAFFINI - Pressure calculation';
+  else if (lang === 'es') titleText = 'CAFFINI - Cálculo de presión';
+  else if (lang === 'de') titleText = 'CAFFINI - Druckberechnung';
+  else if (lang === 'fr') titleText = 'CAFFINI - Calcul de pression';
   document.title = titleText;
 
   renderGrid(currentMode);
