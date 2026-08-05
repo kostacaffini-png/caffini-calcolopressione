@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>CAFFINI - Calcolo pressione piastrine rosa</title>
+<title>CAFFINI - Calcolo pressione</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -53,9 +53,9 @@
     border-radius:8px;padding:2px;
   }
   .lang-btn{
-    padding:5px 8px;border-radius:6px;border:none;background:transparent;
-    color:var(--text-dim);font-family:'Inter',sans-serif;font-size:10.5px;font-weight:700;
-    letter-spacing:.02em;cursor:pointer;
+    padding:5px 11px;border-radius:6px;border:none;background:transparent;
+    color:var(--text-dim);font-family:'Inter',sans-serif;font-size:11px;font-weight:700;
+    letter-spacing:.03em;cursor:pointer;
   }
   .lang-btn.active{background:var(--accent);color:#fff;}
   .theme-btn{
@@ -212,9 +212,6 @@
   <div class="lang-toggle">
     <button class="lang-btn active" id="langIt">IT</button>
     <button class="lang-btn" id="langEn">EN</button>
-    <button class="lang-btn" id="langDe">DE</button>
-    <button class="lang-btn" id="langEs">ES</button>
-    <button class="lang-btn" id="langFr">FR</button>
   </div>
   <button class="theme-btn" id="themeToggle" aria-label="Cambia tema" title="Cambia tema">🌙</button>
 </div>
@@ -313,7 +310,7 @@ const DATASETS = {
   // ---- Dataset 2: Ugelli Colorati (ugelli standard ISO, rif. 10 bar) ----
   colorati: {
     refBar: 10,
-    gaugeMax: 25,
+    gaugeMax: 20,
     hasConv: false,
     nozzles: [
       {ugello:'800050', lmin:0.33, color:'#f472b6'},
@@ -341,7 +338,7 @@ const tabColorati = document.getElementById('tabColorati');
 
 const I18N = {
   it: {
-    titleMain: 'Calcolo Pressione',
+    modeTitle: { rosa: 'Calcolo Pressione / Piastrine Rosa', colorati: 'Calcolo Pressione / Ugelli Colorati' },
     tabRosa: 'Piastrine Rosa \u230018',
     tabColorati: 'Ugelli Colorati (TXB)',
     datiTrattamento: 'Dati trattamento',
@@ -353,15 +350,16 @@ const I18N = {
     gettiAttivi: 'getti attivi',
     reset: 'Azzera tutti i valori',
     footer: 'Questa web-app è stata sviluppata da <b>Kosta B.</b> ad uso gratuito',
+    convogl: 'convogl.',
     ugello: 'Ugello',
-    ugelloRosaAlt: 'ugello rosa',
-    convogliatore: 'convogliatore',
     cieco: 'cieco',
+    convogliatore: 'convogliatore',
+    ugelloRosaAlt: 'ugello rosa',
     aBar: (b) => `a ${b} bar`,
     convoglLabel: (conv) => conv === 'cieco' ? 'convogl. cieco' : `convogl. ${conv}`,
   },
   en: {
-    titleMain: 'Pressure Calculation',
+    modeTitle: { rosa: 'Pressure Calculation / Ceramic Nozzle', colorati: 'Pressure Calculation / Colored Nozzles' },
     tabRosa: 'Ceramic Nozzle \u230018',
     tabColorati: 'Colored Nozzles (TXB)',
     datiTrattamento: 'Treatment data',
@@ -373,76 +371,15 @@ const I18N = {
     gettiAttivi: 'active jets',
     reset: 'Reset all values',
     footer: 'This web app was developed by <b>Kosta B.</b> free to use',
+    convogl: 'deflector',
     ugello: 'Nozzle',
-    ugelloRosaAlt: 'ceramic nozzle',
-    convogliatore: 'deflector',
     cieco: 'blind',
+    convogliatore: 'deflector',
+    ugelloRosaAlt: 'ceramic nozzle',
     aBar: (b) => `at ${b} bar`,
     convoglLabel: (conv) => conv === 'cieco' ? 'blind deflector' : `deflector ${conv}`,
-  },
-  de: {
-    titleMain: 'Druckberechnung',
-    tabRosa: 'Keramikdüse \u230018',
-    tabColorati: 'Farbcodierte Düsen (TXB)',
-    datiTrattamento: 'Behandlungsdaten',
-    dose: 'Aufwandmenge',
-    velocita: 'Fahrgeschwindigkeit',
-    filari: 'Reihenbreite',
-    ugelliInUso: 'Verwendete Düsen — Anzahl je Typ',
-    lminTotali: 'l/min gesamt',
-    gettiAttivi: 'aktive Düsen',
-    reset: 'Alle Werte zurücksetzen',
-    footer: 'Diese Web-App wurde von <b>Kosta B.</b> kostenlos entwickelt',
-    ugello: 'Düse',
-    ugelloRosaAlt: 'Keramikdüse',
-    convogliatore: 'Deflektor',
-    cieco: 'blind',
-    aBar: (b) => `bei ${b} bar`,
-    convoglLabel: (conv) => conv === 'cieco' ? 'blinder Deflektor' : `Deflektor ${conv}`,
-  },
-  es: {
-    titleMain: 'Cálculo de Presión',
-    tabRosa: 'Boquilla Cerámica \u230018',
-    tabColorati: 'Boquillas de Colores (TXB)',
-    datiTrattamento: 'Datos del tratamiento',
-    dose: 'Dosis de producto',
-    velocita: 'Velocidad de avance',
-    filari: 'Ancho de hilera',
-    ugelliInUso: 'Boquillas en uso — n.º de boquillas por tipo',
-    lminTotali: 'l/min totales',
-    gettiAttivi: 'boquillas activas',
-    reset: 'Restablecer todos los valores',
-    footer: 'Esta aplicación web fue desarrollada por <b>Kosta B.</b> de uso gratuito',
-    ugello: 'Boquilla',
-    ugelloRosaAlt: 'boquilla cerámica',
-    convogliatore: 'deflector',
-    cieco: 'ciego',
-    aBar: (b) => `a ${b} bar`,
-    convoglLabel: (conv) => conv === 'cieco' ? 'deflector ciego' : `deflector ${conv}`,
-  },
-  fr: {
-    titleMain: 'Calcul de Pression',
-    tabRosa: 'Buse Céramique \u230018',
-    tabColorati: 'Buses Colorées (TXB)',
-    datiTrattamento: 'Données de traitement',
-    dose: 'Dose de produit',
-    velocita: "Vitesse d'avancement",
-    filari: 'Largeur de rang',
-    ugelliInUso: 'Buses utilisées — n° de buses par type',
-    lminTotali: 'l/min totaux',
-    gettiAttivi: 'buses actives',
-    reset: 'Réinitialiser toutes les valeurs',
-    footer: 'Cette application web a été développée par <b>Kosta B.</b> à usage gratuit',
-    ugello: 'Buse',
-    ugelloRosaAlt: 'buse céramique',
-    convogliatore: 'déflecteur',
-    cieco: 'aveugle',
-    aBar: (b) => `à ${b} bar`,
-    convoglLabel: (conv) => conv === 'cieco' ? 'déflecteur aveugle' : `déflecteur ${conv}`,
-  }
+  }  
 };
-
-const LANG_CODES = ['it', 'en', 'de', 'es', 'fr'];
 
 function renderGrid(mode){
   const cfg = DATASETS[mode];
@@ -488,6 +425,7 @@ function switchMode(mode){
   currentMode = mode;
   tabRosa.classList.toggle('active', mode === 'rosa');
   tabColorati.classList.toggle('active', mode === 'colorati');
+  if (modeTitle) modeTitle.textContent = I18N[currentLang].modeTitle[mode];
   renderGrid(mode);
   recalc();
 }
@@ -495,10 +433,8 @@ function switchMode(mode){
 function applyLanguage(lang){
   currentLang = lang;
   const t = I18N[lang];
-  LANG_CODES.forEach(code => {
-    const btn = document.getElementById('lang' + code.charAt(0).toUpperCase() + code.slice(1));
-    if (btn) btn.classList.toggle('active', lang === code);
-  });
+  document.getElementById('langIt').classList.toggle('active', lang === 'it');
+  document.getElementById('langEn').classList.toggle('active', lang === 'en');
   document.getElementById('tabRosaLabel').textContent = t.tabRosa;
   document.getElementById('tabColoratiLabel').textContent = t.tabColorati;
   document.getElementById('lblDatiTrattamento').textContent = t.datiTrattamento;
@@ -510,17 +446,14 @@ function applyLanguage(lang){
   document.getElementById('lblGettiAttivi').textContent = t.gettiAttivi;
   document.getElementById('resetBtn').textContent = t.reset;
   document.getElementById('footerNote').innerHTML = t.footer;
-  if (modeTitle) modeTitle.textContent = t.titleMain;
-  document.title = 'CAFFINI - ' + t.titleMain;
+  if (modeTitle) modeTitle.textContent = t.modeTitle[currentMode];
+  document.title = lang === 'it' ? 'CAFFINI - Calcolo pressione piastrine rosa' : 'CAFFINI - Pressure calculation';
   renderGrid(currentMode);
   recalc();
 }
 
-LANG_CODES.forEach(code => {
-  const id = 'lang' + code.charAt(0).toUpperCase() + code.slice(1);
-  const btn = document.getElementById(id);
-  if (btn) btn.addEventListener('click', () => applyLanguage(code));
-});
+document.getElementById('langIt').addEventListener('click', () => applyLanguage('it'));
+document.getElementById('langEn').addEventListener('click', () => applyLanguage('en'));
 
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
@@ -561,17 +494,12 @@ const gettiVal = document.getElementById('gettiVal');
 const arc = document.getElementById('arc');
 const ARC_LEN = 345;
 
-// colorazione stile manometro industriale in funzione della pressione: bianco 0-1, verde 1-5, giallo 5-20, rosso oltre 20
-const GAUGE_ZONES = [
-  { from: 0,  to: 1,  color: '#f3f4f6' },
-  { from: 1,  to: 5,  color: '#2e9f4f' },
-  { from: 5,  to: 20, color: '#f4c430' },
-  { from: 20, to: Infinity, color: '#e5484d' },
-];
-
 function getGaugeColor(pressione){
-  const zone = GAUGE_ZONES.find(z => pressione >= z.from && pressione < z.to);
-  return zone ? zone.color : GAUGE_ZONES[GAUGE_ZONES.length - 1].color;
+  if (pressione < 2) return '#ef4444';
+  if (pressione < 4) return '#f59e0b';
+  if (pressione < 12) return '#22c55e';
+  if (pressione < 20) return '#f59e0b';
+  return '#ef4444';
 }
 
 function getGettiInputs(){
@@ -602,11 +530,12 @@ function recalc(){
   if (sumDG > 0 && lminTotali > 0) {
     const pressione = cfg.refBar * (lminTotali * lminTotali) / (sumDG * sumDG);
     pressureVal.textContent = pressione < 100 ? pressione.toFixed(2) : pressione.toFixed(0);
+    arc.style.stroke = getGaugeColor(pressione);
     const frac = Math.min(pressione / cfg.gaugeMax, 1);
     arc.style.strokeDashoffset = ARC_LEN - (ARC_LEN * frac);
-    arc.style.stroke = getGaugeColor(pressione);
   } else {
     pressureVal.textContent = '–';
+    arc.style.stroke = '#00952b';
     arc.style.strokeDashoffset = ARC_LEN;
   }
 }
@@ -619,7 +548,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   recalc();
 });
 
-applyLanguage(currentLang);
+recalc();
 </script>
 </body>
 </html>
