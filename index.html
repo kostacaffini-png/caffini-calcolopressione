@@ -248,8 +248,13 @@
 </div>
 
 <div class="tabs">
-  <button class="tab-btn active" id="tabRosa"><img class="tab-icon" id="tabRosaIcon" alt=""><span id="tabRosaLabel">Piastrine Rosa &#8960;18</span></button>
-  <button class="tab-btn" id="tabColorati"><span id="tabColoratiLabel">Ugelli Colorati (TXB)</span><div class="tab-swatches" id="tabColoratiSwatches"></div></button>
+  <button class="tab-btn active" id="tabRosa"><img class="tab-icon" id="tabRosaIcon" alt=""><span id="tabRosaLabel">PIASTRINE CERAMICA &#8960;18</span></button>
+  <button class="tab-btn" id="tabColorati"><span id="tabColoratiLabel"style="font-size: 18px; font-weight: bold; display: block;">
+    UGELLI A NORMA ISO
+    <span style="font-size: 11px; display: block; opacity: 0.85;">
+    Teejet: TXB-TXA-TVI | Lechler:TR-ITR-IDK | Albuz: ATI-CVI
+  </span>
+  </span><div class="tab-swatches" id="tabColoratiSwatches"></div></button>
 </div>
 
 <div class="section">
@@ -342,8 +347,9 @@ const tabColorati = document.getElementById('tabColorati');
 const I18N = {
   it: {
     modeTitle: { rosa: 'Calcolo Pressione / Piastrine Rosa', colorati: 'Calcolo Pressione / Ugelli Colorati' },
-    tabRosa: 'Piastrine Rosa \u230018',
-    tabColorati: 'Ugelli Colorati (TXB)',
+    tabRosa: 'PIASTRINE CERAMICA &#8960;18',
+    tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">UGELLI A NORMA ISO</span>
+                  <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
     datiTrattamento: 'Dati trattamento',
     dose: 'Dose prodotto',
     velocita: 'Velocità di avanzamento',
@@ -362,9 +368,10 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'convogl. cieco' : `convogl. ${conv}`,
   },
   en: {
-    modeTitle: { rosa: 'Pressure Calculation / Ceramic Nozzle', colorati: 'Pressure Calculation / Colored Nozzles' },
-    tabRosa: 'Ceramic Nozzle \u230018',
-    tabColorati: 'Colored Nozzles (TXB)',
+    modeTitle: { rosa: 'Pressure Calculation / Ceramic Plates', colorati: 'Pressure Calculation / ISO Standard Nozzles' },
+    tabRosa: 'CERAMIC PLATES &#8960;18',
+    tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">ISO STANDARD NOZZLES</span>
+                  <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
     datiTrattamento: 'Treatment data',
     dose: 'Product rate',
     velocita: 'Forward speed',
@@ -383,9 +390,10 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blind deflector' : `deflector ${conv}`,
   },
   es: {
-    modeTitle: { rosa: 'Cálculo de Presión / Placas Rosas', colorati: 'Cálculo de Presión / Boquillas de Colores' },
-    tabRosa: 'Placas Rosas \u230018',
-    tabColorati: 'Boquillas de Colores (TXB)',
+    modeTitle: { rosa: 'Cálculo de Presión / Placas de Cerámica', colorati: 'Cálculo de Presión / Boquillas Norma ISO' },
+    tabRosa: 'PLACAS DE CERÁMICA &#8960;18',
+    tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BOQUILLAS NORMA ISO</span>
+                  <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
     datiTrattamento: 'Datos de tratamiento',
     dose: 'Dosis de producto',
     velocita: 'Velocidad de avance',
@@ -404,9 +412,10 @@ const I18N = {
     convoglLabel: (conv) => conv === 'ciego' ? 'deflector ciego' : `deflector ${conv}`,
   },
   de: {
-    modeTitle: { rosa: 'Druckberechnung / Rosa Plättchen', colorati: 'Druckberechnung / Farbige Düsen' },
-    tabRosa: 'Rosa Plättchen \u230018',
-    tabColorati: 'Farbige Düsen (TXB)',
+    modeTitle: { rosa: 'Druckberechnung / Keramikplättchen', colorati: 'Druckberechnung / Düsen nach ISO-Norm' },
+    tabRosa: 'KERAMIKPLÄTTCHEN &#8960;18',
+    tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">DÜSEN NACH ISO-NORM</span>
+                  <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
     datiTrattamento: 'Behandlungsdaten',
     dose: 'Produktdosis',
     velocita: 'Fahrgeschwindigkeit',
@@ -425,9 +434,10 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blindes Leitblech' : `Leitblech ${conv}`,
   },
   fr: {
-    modeTitle: { rosa: 'Calcul de Pression / Plaques Roses', colorati: 'Calcul de Pression / Buses Colorées' },
-    tabRosa: 'Plaques Roses \u230018',
-    tabColorati: 'Buses Colorées (TXB)',
+    modeTitle: { rosa: 'Calcul de Pression / Pastilles Céramique', colorati: 'Calcul de Pression / Buses Norme ISO' },
+    tabRosa: 'PASTILLES CÉRAMIQUE &#8960;18',
+    tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BUSES NORME ISO</span>
+                  <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
     datiTrattamento: 'Données de traitement',
     dose: 'Dose de produit',
     velocita: 'Vitesse d\'avancement',
@@ -505,8 +515,10 @@ function applyLanguage(lang){
     btn.classList.toggle('active', btn.id === 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1));
   });
 
-  document.getElementById('tabRosaLabel').textContent = t.tabRosa;
-  document.getElementById('tabColoratiLabel').textContent = t.tabColorati;
+  // Usa innerHTML per preservare i tag <span> interni
+  document.getElementById('tabRosaLabel').innerHTML = t.tabRosa;
+  document.getElementById('tabColoratiLabel').innerHTML = t.tabColorati;
+
   document.getElementById('lblDatiTrattamento').textContent = t.datiTrattamento;
   document.getElementById('lblDose').textContent = t.dose;
   document.getElementById('lblVelocita').textContent = t.velocita;
@@ -519,7 +531,7 @@ function applyLanguage(lang){
   if (modeTitle) modeTitle.textContent = t.modeTitle[currentMode];
   
   // Update document title based on selected language
-  let titleText = 'CAFFINI - Calcolo pressione'; // Default Italian
+  let titleText = 'CAFFINI - Calcolo pressione';
   if (lang === 'en') {
     titleText = 'CAFFINI - Pressure calculation';
   } else if (lang === 'es') {
