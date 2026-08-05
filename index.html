@@ -212,6 +212,9 @@
   <div class="lang-toggle">
     <button class="lang-btn active" id="langIt">IT</button>
     <button class="lang-btn" id="langEn">EN</button>
+    <button class="lang-btn" id="langEs">ES</button>
+    <button class="lang-btn" id="langDe">DE</button>
+    <button class="lang-btn" id="langFr">FR</button>
   </div>
   <button class="theme-btn" id="themeToggle" aria-label="Cambia tema" title="Cambia tema">🌙</button>
 </div>
@@ -378,7 +381,70 @@ const I18N = {
     ugelloRosaAlt: 'ceramic nozzle',
     aBar: (b) => `at ${b} bar`,
     convoglLabel: (conv) => conv === 'cieco' ? 'blind deflector' : `deflector ${conv}`,
-  }  
+  },
+  es: {
+    modeTitle: { rosa: 'Cálculo de Presión / Placas Rosas', colorati: 'Cálculo de Presión / Boquillas de Colores' },
+    tabRosa: 'Placas Rosas \u230018',
+    tabColorati: 'Boquillas de Colores (TXB)',
+    datiTrattamento: 'Datos de tratamiento',
+    dose: 'Dosis de producto',
+    velocita: 'Velocidad de avance',
+    filari: 'Ancho de fila',
+    ugelliInUso: 'Boquillas en uso — n° de chorros por tipo',
+    lminTotali: 'l/min totales',
+    gettiAttivi: 'chorros activos',
+    reset: 'Restablecer todos los valores',
+    footer: 'Esta aplicación web fue desarrollada por <b>Kosta B.</b> para uso gratuito',
+    convogl: 'deflector',
+    ugello: 'Boquilla',
+    cieco: 'ciego',
+    convogliatore: 'deflector',
+    ugelloRosaAlt: 'boquilla rosa',
+    aBar: (b) => `a ${b} bar`,
+    convoglLabel: (conv) => conv === 'ciego' ? 'deflector ciego' : `deflector ${conv}`,
+  },
+  de: {
+    modeTitle: { rosa: 'Druckberechnung / Rosa Plättchen', colorati: 'Druckberechnung / Farbige Düsen' },
+    tabRosa: 'Rosa Plättchen \u230018',
+    tabColorati: 'Farbige Düsen (TXB)',
+    datiTrattamento: 'Behandlungsdaten',
+    dose: 'Produktdosis',
+    velocita: 'Fahrgeschwindigkeit',
+    filari: 'Reihenbreite',
+    ugelliInUso: 'Verwendete Düsen — Anzahl der Düsen pro Typ',
+    lminTotali: 'l/min gesamt',
+    gettiAttivi: 'aktive Düsen',
+    reset: 'Alle Werte zurücksetzen',
+    footer: 'Diese Web-App wurde von <b>Kosta B.</b> zur kostenlosen Nutzung entwickelt',
+    convogl: 'Leitblech',
+    ugello: 'Düse',
+    cieco: 'blind',
+    convogliatore: 'Leitblech',
+    ugelloRosaAlt: 'rosa Düse',
+    aBar: (b) => `bei ${b} bar`,
+    convoglLabel: (conv) => conv === 'cieco' ? 'blindes Leitblech' : `Leitblech ${conv}`,
+  },
+  fr: {
+    modeTitle: { rosa: 'Calcul de Pression / Plaques Roses', colorati: 'Calcul de Pression / Buses Colorées' },
+    tabRosa: 'Plaques Roses \u230018',
+    tabColorati: 'Buses Colorées (TXB)',
+    datiTrattamento: 'Données de traitement',
+    dose: 'Dose de produit',
+    velocita: 'Vitesse d\'avancement',
+    filari: 'Largeur de rang',
+    ugelliInUso: 'Buses utilisées — n° de jets par type',
+    lminTotali: 'l/min totaux',
+    gettiAttivi: 'jets actifs',
+    reset: 'Réinitialiser toutes les valeurs',
+    footer: 'Cette application web a été développée par <b>Kosta B.</b> pour une utilisation gratuite',
+    convogl: 'déflecteur',
+    ugello: 'Buse',
+    cieco: 'aveugle',
+    convogliatore: 'déflecteur',
+    ugelloRosaAlt: 'buse rose',
+    aBar: (b) => `à ${b} bar`,
+    convoglLabel: (conv) => conv === 'cieco' ? 'déflecteur aveugle' : `déflecteur ${conv}`,
+  }
 };
 
 function renderGrid(mode){
@@ -433,8 +499,12 @@ function switchMode(mode){
 function applyLanguage(lang){
   currentLang = lang;
   const t = I18N[lang];
-  document.getElementById('langIt').classList.toggle('active', lang === 'it');
-  document.getElementById('langEn').classList.toggle('active', lang === 'en');
+  
+  // Update active class for all language buttons
+  document.querySelectorAll('.lang-toggle .lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.id === 'lang' + lang.charAt(0).toUpperCase() + lang.slice(1));
+  });
+
   document.getElementById('tabRosaLabel').textContent = t.tabRosa;
   document.getElementById('tabColoratiLabel').textContent = t.tabColorati;
   document.getElementById('lblDatiTrattamento').textContent = t.datiTrattamento;
@@ -447,13 +517,29 @@ function applyLanguage(lang){
   document.getElementById('resetBtn').textContent = t.reset;
   document.getElementById('footerNote').innerHTML = t.footer;
   if (modeTitle) modeTitle.textContent = t.modeTitle[currentMode];
-  document.title = lang === 'it' ? 'CAFFINI - Calcolo pressione piastrine rosa' : 'CAFFINI - Pressure calculation';
+  
+  // Update document title based on selected language
+  let titleText = 'CAFFINI - Calcolo pressione'; // Default Italian
+  if (lang === 'en') {
+    titleText = 'CAFFINI - Pressure calculation';
+  } else if (lang === 'es') {
+    titleText = 'CAFFINI - Cálculo de presión';
+  } else if (lang === 'de') {
+    titleText = 'CAFFINI - Druckberechnung';
+  } else if (lang === 'fr') {
+    titleText = 'CAFFINI - Calcul de pression';
+  }
+  document.title = titleText;
+
   renderGrid(currentMode);
   recalc();
 }
 
 document.getElementById('langIt').addEventListener('click', () => applyLanguage('it'));
 document.getElementById('langEn').addEventListener('click', () => applyLanguage('en'));
+document.getElementById('langEs').addEventListener('click', () => applyLanguage('es'));
+document.getElementById('langDe').addEventListener('click', () => applyLanguage('de'));
+document.getElementById('langFr').addEventListener('click', () => applyLanguage('fr'));
 
 function applyTheme(theme){
   document.documentElement.setAttribute('data-theme', theme);
