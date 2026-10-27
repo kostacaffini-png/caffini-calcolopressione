@@ -204,6 +204,86 @@
   }
   .reset-btn:active{background:var(--panel-2);}
   #gaugeTrack{stroke:var(--line);}
+
+  /* ===== Preset, configurazioni salvate, portagetto doppio ===== */
+  .cfg-select,.cfg-input{
+    width:100%;background:var(--panel-2);border:1px solid var(--line);border-radius:9px;
+    color:var(--text);font-family:'Inter',sans-serif;font-size:14px;
+    padding:11px 12px;outline:none;min-width:0;
+  }
+  .cfg-select:focus,.cfg-input:focus{border-color:var(--accent);}
+  .cfg-row{display:flex;gap:8px;align-items:stretch;}
+  .cfg-row > .cfg-select,.cfg-row > .cfg-input{flex:1;}
+  .cfg-btn{
+    padding:0 14px;min-height:42px;border-radius:9px;border:1px solid var(--line);
+    background:var(--panel-2);color:var(--text);font-family:'Inter',sans-serif;
+    font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;
+  }
+  .cfg-btn:active{opacity:.8;}
+  .cfg-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .cfg-btn.danger{color:#ef4444;}
+  .cfg-desc{font-size:11.5px;color:var(--text-dim);line-height:1.5;white-space:pre-line;margin-top:4px;}
+  .cfg-desc:empty{display:none;}
+  .cfg-msg{font-size:12px;margin-top:10px;line-height:1.4;}
+  .cfg-msg:empty{display:none;}
+  .cfg-msg.ok{color:var(--good);}
+  .cfg-msg.err{color:#ef4444;}
+  .toggle-row{display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer;line-height:1.35;}
+  .toggle-row input{width:20px;height:20px;accent-color:var(--accent);flex-shrink:0;margin:0;}
+  .series-tabs{display:flex;gap:8px;margin-top:12px;}
+  .series-btn{
+    flex:1;padding:10px 8px;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel-2);color:var(--text);font-family:'Inter',sans-serif;
+    text-align:center;display:flex;flex-direction:column;gap:2px;cursor:pointer;
+  }
+  .series-btn.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;}
+  .series-btn .s-name{font-weight:700;font-size:13px;}
+  .series-btn .s-dose{font-size:11px;color:var(--text-dim);}
+  .series-btn .s-press{font-family:'Roboto Mono',monospace;font-size:14px;font-weight:500;}
+  .serie-badge{
+    display:inline-block;margin-bottom:10px;padding:4px 10px;border-radius:999px;
+    background:var(--accent);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.02em;
+  }
+  .serie-badge[hidden]{display:none;}
+
+  /* ===== Report PDF ===== */
+  #reportView{position:fixed;inset:0;z-index:1000;background:#fff;color:#111;overflow:auto;font-family:'Inter',sans-serif;}
+  #reportView .r-bar{position:sticky;top:0;display:flex;gap:8px;justify-content:flex-end;padding:10px 14px;background:#f1f3f5;border-bottom:1px solid #d5d9de;}
+  #reportView .r-btn{padding:10px 16px;border-radius:9px;border:1px solid #c5cad1;background:#fff;color:#111;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;cursor:pointer;}
+  #reportView .r-btn.primary{background:#00952b;border-color:#00952b;color:#fff;}
+  #reportView .r-page{max-width:800px;margin:0 auto;padding:22px 22px 40px;}
+  #reportView .r-head{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:3px solid #00952b;padding-bottom:12px;margin-bottom:16px;}
+  #reportView .r-head img{max-width:150px;height:auto;display:block;}
+  #reportView .r-title{font-family:'Oswald',sans-serif;font-size:20px;font-weight:600;text-transform:uppercase;letter-spacing:.03em;margin:0 0 4px;}
+  #reportView .r-meta{font-size:12px;color:#555;line-height:1.5;}
+  #reportView .r-series{border:1px solid #d5d9de;border-radius:10px;padding:14px;margin-bottom:16px;break-inside:avoid;page-break-inside:avoid;}
+  #reportView .r-series h3{font-family:'Oswald',sans-serif;font-size:15px;text-transform:uppercase;letter-spacing:.05em;margin:0 0 4px;color:#00611c;}
+  #reportView .r-fam{font-size:12px;color:#555;margin-bottom:10px;}
+  #reportView .r-kv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+  #reportView .r-kv div{background:#f4f5f7;border-radius:8px;padding:8px 10px;}
+  #reportView .r-kv b{display:block;font-size:15px;font-family:'Roboto Mono',monospace;font-weight:500;}
+  #reportView .r-kv span{font-size:10.5px;color:#555;}
+  #reportView .r-sub{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#555;margin:0 0 6px;}
+  #reportView table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  #reportView th,#reportView td{padding:6px 8px;border-bottom:1px solid #e3e6ea;text-align:left;vertical-align:middle;}
+  #reportView th{font-size:11px;color:#555;font-weight:600;}
+  #reportView .num{text-align:right;font-family:'Roboto Mono',monospace;}
+  #reportView tfoot td{font-weight:700;border-bottom:none;}
+  #reportView .r-sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;border:1px solid rgba(0,0,0,.3);}
+  #reportView .r-press{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:10px 14px;border-radius:8px;border:2px solid;}
+  #reportView .r-press span{font-size:13px;font-weight:600;}
+  #reportView .r-press b{font-family:'Oswald',sans-serif;font-size:26px;}
+  #reportView .r-warn{font-size:11.5px;margin-top:6px;color:#b45309;}
+  #reportView .r-foot{font-size:10.5px;color:#666;margin-top:6px;border-top:1px solid #ddd;padding-top:8px;line-height:1.5;}
+  @media (max-width:520px){#reportView .r-kv{grid-template-columns:repeat(2,1fr);}#reportView .r-head{flex-direction:column;align-items:flex-start;}}
+  @media print{
+    body > *:not(#reportView){display:none !important;}
+    #reportView{position:static;overflow:visible;}
+    #reportView .r-bar{display:none;}
+    #reportView .r-page{padding:0;max-width:none;}
+    #reportView *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    @page{margin:12mm;}
+  }
 </style>
 </head>
 <body>
@@ -247,6 +327,52 @@
   </div>
 </div>
 
+<div class="section">
+  <h2 id="lblCfgTitle">Preset e configurazioni</h2>
+  <div class="card">
+    <div class="field">
+      <label id="lblPreset" for="presetSelect">Parti da un preset</label>
+      <select class="cfg-select" id="presetSelect"></select>
+    </div>
+    <div class="field">
+      <label id="lblSavedCfg" for="savedSelect">Le mie configurazioni</label>
+      <div class="cfg-row">
+        <select class="cfg-select" id="savedSelect"></select>
+        <button type="button" class="cfg-btn danger" id="cfgDelete">Elimina</button>
+      </div>
+    </div>
+    <div class="cfg-desc" id="cfgDesc"></div>
+    <div class="field" style="margin-top:14px">
+      <label id="lblCfgName" for="cfgName">Salva la configurazione attuale</label>
+      <div class="cfg-row">
+        <input type="text" class="cfg-input" id="cfgName" maxlength="60" autocomplete="off">
+        <button type="button" class="cfg-btn primary" id="cfgSave">Salva</button>
+      </div>
+    </div>
+    <div class="cfg-row" style="margin-top:10px">
+      <button type="button" class="cfg-btn" id="cfgExport" style="flex:1">Esporta</button>
+      <button type="button" class="cfg-btn" id="cfgImport" style="flex:1">Importa</button>
+      <input type="file" id="cfgFile" accept=".json,application/json" hidden>
+    </div>
+    <button type="button" class="cfg-btn" id="cfgReport" style="width:100%;margin-top:10px"></button>
+    <div class="cfg-msg" id="cfgMsg" role="status"></div>
+  </div>
+</div>
+
+<div class="section">
+  <h2 id="lblDualTitle">Portagetto doppio</h2>
+  <div class="card">
+    <label class="toggle-row"><input type="checkbox" id="dualToggle"><span id="lblDual"></span></label>
+    <div id="dualBody" hidden>
+      <div class="series-tabs">
+        <button type="button" class="series-btn active" id="serieBtn0"><span class="s-name"></span><span class="s-dose"></span><span class="s-press"></span></button>
+        <button type="button" class="series-btn" id="serieBtn1"><span class="s-name"></span><span class="s-dose"></span><span class="s-press"></span></button>
+      </div>
+      <div class="cfg-desc" id="dualHint" style="margin-top:10px"></div>
+    </div>
+  </div>
+</div>
+
 <div class="tabs">
   <button class="tab-btn active" id="tabRosa"><img class="tab-icon" id="tabRosaIcon" alt=""><span id="tabRosaLabel">PIASTRINE CERAMICA &#8960;18</span></button>
   <button class="tab-btn" id="tabColorati"><span id="tabColoratiLabel"style="font-size: 18px; font-weight: bold; display: block;">
@@ -258,6 +384,7 @@
 </div>
 
 <div class="section">
+  <div class="serie-badge" id="serieBadge" hidden></div>
   <h2 id="lblDatiTrattamento">Dati trattamento</h2>
   <div class="card">
     <div class="field">
@@ -457,7 +584,7 @@ const I18N = {
   }
 };
 
-function renderGrid(mode){
+function renderGrid(mode, counts){
   const cfg = DATASETS[mode];
   const t = I18N[currentLang];
   grid.innerHTML = '';
@@ -491,7 +618,7 @@ function renderGrid(mode){
         <div class="fv">${n.lmin.toFixed(2)} l/min</div>
         <div class="fl">${t.aBar(cfg.refBar)}</div>
       </div>
-      <input type="number" id="getti-${i}" inputmode="numeric" placeholder="0" value="0" min="0" step="1">
+      <input type="number" id="getti-${i}" inputmode="numeric" placeholder="0" value="${(counts && counts[i]) || 0}" min="0" step="1">
     `;
     grid.appendChild(row);
   });
@@ -538,8 +665,10 @@ function applyLanguage(lang){
   else if (lang === 'fr') titleText = 'CAFFINI - Calcul de pression';
   document.title = titleText;
 
-  renderGrid(currentMode);
+  const keepCounts = getGettiInputs().map(inp => parseFloat(inp.value) || 0);
+  renderGrid(currentMode, keepCounts);
   recalc();
+  renderCfgUI();
 }
 
 document.getElementById('langIt').addEventListener('click', () => applyLanguage('it'));
@@ -605,23 +734,17 @@ function recalc(){
   const vel = parseFloat(velEl.value) || 0;
   const fil = parseFloat(filEl.value) || 0;
 
-  const lminTotali = (lha * vel * fil) / 600;
-
-  let sumDG = 0;
-  let totGetti = 0;
   const inputs = getGettiInputs();
+  const counts = inputs.map(inp => parseFloat(inp.value) || 0);
+  const { lminTotali, totGetti, pressione } = calcPressure(cfg, lha, vel, fil, counts);
   cfg.nozzles.forEach((n, i) => {
-    const g = parseFloat(inputs[i].value) || 0;
-    sumDG += g * n.lmin;
-    totGetti += g;
-    document.getElementById('row-' + i).classList.toggle('active', g > 0);
+    document.getElementById('row-' + i).classList.toggle('active', counts[i] > 0);
   });
 
   lminVal.textContent = lminTotali.toFixed(2);
   gettiVal.textContent = totGetti;
 
-  if (sumDG > 0 && lminTotali > 0) {
-    const pressione = cfg.refBar * (lminTotali * lminTotali) / (sumDG * sumDG);
+  if (pressione !== null) {
     pressureVal.textContent = pressione < 100 ? pressione.toFixed(2) : pressione.toFixed(0);
     arc.style.stroke = getGaugeColor(pressione);
     const frac = Math.min(pressione / cfg.gaugeMax, 1);
@@ -631,6 +754,9 @@ function recalc(){
     arc.style.stroke = '#00952b';
     arc.style.strokeDashoffset = ARC_LEN;
   }
+
+  syncSeriesFromUI();
+  renderDualSummary();
 }
 
 document.body.addEventListener('input', recalc);
@@ -640,6 +766,589 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   getGettiInputs().forEach(inp => inp.value = 0);
   recalc();
 });
+
+// =====================================================================
+// PRESET, CONFIGURAZIONI SALVATE, PORTAGETTO DOPPIO
+// (le funzioni di calcolo sopra restano invariate: qui si legge/scrive
+//  solo lo stato dei campi esistenti)
+// =====================================================================
+const STORAGE_KEY = 'caffini_pressione_configs_v1';
+
+const CFG_I18N = {
+  it: {
+    cfgTitle:'Preset e configurazioni', preset:'Parti da un preset', presetPlaceholder:'— Scegli un preset —',
+    lblSaved:'Le mie configurazioni', savedPlaceholder:'— Seleziona —', savedEmpty:'— Nessuna configurazione salvata —',
+    del:'Elimina', saveLbl:'Salva la configurazione attuale', namePh:'Nome (es. Vigneto Rossi 2,5 m)', save:'Salva',
+    exp:'Esporta', imp:'Importa', gVigneto:'Vigneto', gFrutteto:'Frutteto', gDual:'Doppio getto',
+    presetNote:'Valori indicativi di partenza: verifica e adatta alla tua macchina, poi salva la tua configurazione.',
+    dualTitle:'Portagetto doppio', dual:'Portagetto doppio: due serie di ugelli sulla stessa macchina',
+    dualHint:'Ogni serie ha i propri l/ha, velocità, larghezza filare e ugelli. Esempio: Serie A per il dosaggio inferiore, Serie B per il dosaggio maggiore. Si salvano insieme.',
+    serieA:'Serie A', serieB:'Serie B', editing:(s)=>`Stai modificando: ${s}`,
+    nameRequired:'Inserisci un nome per la configurazione.', needNozzles:'Imposta almeno un ugello con n° getti maggiore di 0.',
+    msgSaved:'Configurazione salvata.', overwrite:(n)=>`Esiste già una configurazione "${n}". Sovrascrivere?`,
+    delConfirm:(n)=>`Eliminare "${n}"?`, msgDeleted:'Configurazione eliminata.',
+    storageErr:'Salvataggio non disponibile in questo browser (modalità privata?). Usa Esporta per conservare le configurazioni.',
+    nothingExport:'Nessuna configurazione da esportare.', msgImported:(n)=>`${n} configurazioni importate.`,
+    importErr:'File non valido.', selectToDelete:'Seleziona prima una configurazione salvata.'
+  },
+  en: {
+    cfgTitle:'Presets and configurations', preset:'Start from a preset', presetPlaceholder:'— Choose a preset —',
+    lblSaved:'My configurations', savedPlaceholder:'— Select —', savedEmpty:'— No saved configurations —',
+    del:'Delete', saveLbl:'Save the current configuration', namePh:'Name (e.g. Rossi vineyard 2.5 m)', save:'Save',
+    exp:'Export', imp:'Import', gVigneto:'Vineyard', gFrutteto:'Orchard', gDual:'Double jet',
+    presetNote:'Indicative starting values: check and adapt them to your machine, then save your own configuration.',
+    dualTitle:'Double nozzle body', dual:'Double nozzle body: two nozzle sets on the same machine',
+    dualHint:'Each set has its own l/ha, speed, row width and nozzles. Example: Set A for the lower rate, Set B for the higher rate. They are saved together.',
+    serieA:'Set A', serieB:'Set B', editing:(s)=>`Editing: ${s}`,
+    nameRequired:'Enter a name for the configuration.', needNozzles:'Set at least one nozzle with a number of jets greater than 0.',
+    msgSaved:'Configuration saved.', overwrite:(n)=>`A configuration named "${n}" already exists. Overwrite?`,
+    delConfirm:(n)=>`Delete "${n}"?`, msgDeleted:'Configuration deleted.',
+    storageErr:'Saving is not available in this browser (private mode?). Use Export to keep your configurations.',
+    nothingExport:'No configurations to export.', msgImported:(n)=>`${n} configurations imported.`,
+    importErr:'Invalid file.', selectToDelete:'Select a saved configuration first.'
+  },
+  es: {
+    cfgTitle:'Presets y configuraciones', preset:'Parte de un preset', presetPlaceholder:'— Elige un preset —',
+    lblSaved:'Mis configuraciones', savedPlaceholder:'— Seleccionar —', savedEmpty:'— Ninguna configuración guardada —',
+    del:'Eliminar', saveLbl:'Guarda la configuración actual', namePh:'Nombre (p. ej. Viñedo Rossi 2,5 m)', save:'Guardar',
+    exp:'Exportar', imp:'Importar', gVigneto:'Viñedo', gFrutteto:'Frutal', gDual:'Doble chorro',
+    presetNote:'Valores orientativos de partida: compruébalos y adáptalos a tu máquina, luego guarda tu configuración.',
+    dualTitle:'Portaboquillas doble', dual:'Portaboquillas doble: dos series de boquillas en la misma máquina',
+    dualHint:'Cada serie tiene sus propios l/ha, velocidad, ancho de fila y boquillas. Ejemplo: Serie A para la dosis inferior, Serie B para la dosis mayor. Se guardan juntas.',
+    serieA:'Serie A', serieB:'Serie B', editing:(s)=>`Estás editando: ${s}`,
+    nameRequired:'Introduce un nombre para la configuración.', needNozzles:'Configura al menos una boquilla con n.º de chorros mayor que 0.',
+    msgSaved:'Configuración guardada.', overwrite:(n)=>`Ya existe una configuración "${n}". ¿Sobrescribir?`,
+    delConfirm:(n)=>`¿Eliminar "${n}"?`, msgDeleted:'Configuración eliminada.',
+    storageErr:'Guardado no disponible en este navegador (¿modo privado?). Usa Exportar para conservar las configuraciones.',
+    nothingExport:'No hay configuraciones que exportar.', msgImported:(n)=>`${n} configuraciones importadas.`,
+    importErr:'Archivo no válido.', selectToDelete:'Selecciona primero una configuración guardada.'
+  },
+  de: {
+    cfgTitle:'Voreinstellungen und Konfigurationen', preset:'Mit einer Voreinstellung starten', presetPlaceholder:'— Voreinstellung wählen —',
+    lblSaved:'Meine Konfigurationen', savedPlaceholder:'— Auswählen —', savedEmpty:'— Keine gespeicherten Konfigurationen —',
+    del:'Löschen', saveLbl:'Aktuelle Konfiguration speichern', namePh:'Name (z. B. Weinberg Rossi 2,5 m)', save:'Speichern',
+    exp:'Exportieren', imp:'Importieren', gVigneto:'Weinberg', gFrutteto:'Obstanlage', gDual:'Doppeldüse',
+    presetNote:'Richtwerte zum Starten: bitte prüfen und an die Maschine anpassen, dann die eigene Konfiguration speichern.',
+    dualTitle:'Doppel-Düsenhalter', dual:'Doppel-Düsenhalter: zwei Düsensätze an derselben Maschine',
+    dualHint:'Jeder Satz hat eigene l/ha, Geschwindigkeit, Reihenbreite und Düsen. Beispiel: Satz A für die niedrigere, Satz B für die höhere Aufwandmenge. Sie werden zusammen gespeichert.',
+    serieA:'Satz A', serieB:'Satz B', editing:(s)=>`Bearbeitet wird: ${s}`,
+    nameRequired:'Bitte einen Namen für die Konfiguration eingeben.', needNozzles:'Mindestens eine Düse mit Anzahl größer als 0 einstellen.',
+    msgSaved:'Konfiguration gespeichert.', overwrite:(n)=>`Die Konfiguration "${n}" existiert bereits. Überschreiben?`,
+    delConfirm:(n)=>`"${n}" löschen?`, msgDeleted:'Konfiguration gelöscht.',
+    storageErr:'Speichern in diesem Browser nicht möglich (privater Modus?). Mit „Exportieren“ lassen sich die Konfigurationen sichern.',
+    nothingExport:'Keine Konfigurationen zum Exportieren.', msgImported:(n)=>`${n} Konfigurationen importiert.`,
+    importErr:'Ungültige Datei.', selectToDelete:'Zuerst eine gespeicherte Konfiguration auswählen.'
+  },
+  fr: {
+    cfgTitle:'Préréglages et configurations', preset:"Partir d'un préréglage", presetPlaceholder:'— Choisir un préréglage —',
+    lblSaved:'Mes configurations', savedPlaceholder:'— Sélectionner —', savedEmpty:'— Aucune configuration enregistrée —',
+    del:'Supprimer', saveLbl:'Enregistrer la configuration actuelle', namePh:'Nom (ex. Vigne Rossi 2,5 m)', save:'Enregistrer',
+    exp:'Exporter', imp:'Importer', gVigneto:'Vigne', gFrutteto:'Verger', gDual:'Double jet',
+    presetNote:'Valeurs indicatives de départ : vérifiez-les et adaptez-les à votre machine, puis enregistrez votre configuration.',
+    dualTitle:'Porte-buse double', dual:'Porte-buse double : deux séries de buses sur la même machine',
+    dualHint:'Chaque série a ses propres l/ha, vitesse, largeur de rang et buses. Exemple : Série A pour le dosage inférieur, Série B pour le dosage supérieur. Elles sont enregistrées ensemble.',
+    serieA:'Série A', serieB:'Série B', editing:(s)=>`Modification en cours : ${s}`,
+    nameRequired:'Saisissez un nom pour la configuration.', needNozzles:'Réglez au moins une buse avec un nombre de jets supérieur à 0.',
+    msgSaved:'Configuration enregistrée.', overwrite:(n)=>`La configuration "${n}" existe déjà. Écraser ?`,
+    delConfirm:(n)=>`Supprimer "${n}" ?`, msgDeleted:'Configuration supprimée.',
+    storageErr:"Enregistrement indisponible dans ce navigateur (mode privé ?). Utilisez Exporter pour conserver les configurations.",
+    nothingExport:'Aucune configuration à exporter.', msgImported:(n)=>`${n} configurations importées.`,
+    importErr:'Fichier non valide.', selectToDelete:"Sélectionnez d'abord une configuration enregistrée."
+  }
+};
+function ct(key){
+  const l = CFG_I18N[currentLang] || CFG_I18N.it;
+  return (key in l) ? l[key] : CFG_I18N.it[key];
+}
+
+// ---- Preset di partenza ------------------------------------------------
+// VALORI INDICATIVI DI ESEMPIO: da validare/modificare a cura del reparto tecnico.
+// Per aggiungere un preset basta aggiungere un oggetto a questo elenco.
+// counts = n° di getti per ogni riga della tabella ugelli, nello stesso ordine
+// di DATASETS[mode].nozzles. group: 'vigneto' | 'frutteto' | 'dual'.
+const PRESETS = [
+  { id:'vigneto-ceramica', group:'vigneto',
+    name:{it:'Vigneto – piastrine ceramica', en:'Vineyard – ceramic plates', es:'Viñedo – placas de cerámica', de:'Weinberg – Keramikplättchen', fr:'Vigne – pastilles céramique'},
+    dual:false,
+    series:[{mode:'rosa', lha:300, vel:6, fil:2.5, counts:[8,0,0,0,0,0,0,0]}] },
+  { id:'vigneto-iso', group:'vigneto',
+    name:{it:'Vigneto – ugelli ISO', en:'Vineyard – ISO nozzles', es:'Viñedo – boquillas ISO', de:'Weinberg – ISO-Düsen', fr:'Vigne – buses ISO'},
+    dual:false,
+    series:[{mode:'colorati', lha:200, vel:6, fil:2.5, counts:[0,0,8,0,0,0,0]}] },
+  { id:'frutteto-ceramica', group:'frutteto',
+    name:{it:'Frutteto – piastrine ceramica', en:'Orchard – ceramic plates', es:'Frutal – placas de cerámica', de:'Obstanlage – Keramikplättchen', fr:'Verger – pastilles céramique'},
+    dual:false,
+    series:[{mode:'rosa', lha:500, vel:6, fil:4, counts:[0,0,4,0,0,0,2,0]}] },
+  { id:'vigneto-doppio-ceramica', group:'dual',
+    name:{it:'Vigneto doppio getto – ceramica (A/B)', en:'Vineyard double jet – ceramic (A/B)', es:'Viñedo doble chorro – cerámica (A/B)', de:'Weinberg Doppeldüse – Keramik (A/B)', fr:'Vigne double jet – céramique (A/B)'},
+    dual:true,
+    series:[
+      {mode:'rosa', lha:200, vel:6, fil:2.5, counts:[6,0,0,0,0,0,0,0]},
+      {mode:'rosa', lha:400, vel:6, fil:2.5, counts:[0,0,6,0,0,0,0,0]}
+    ] },
+  { id:'vigneto-doppio-iso', group:'dual',
+    name:{it:'Vigneto doppio getto – ugelli ISO (A/B)', en:'Vineyard double jet – ISO nozzles (A/B)', es:'Viñedo doble chorro – boquillas ISO (A/B)', de:'Weinberg Doppeldüse – ISO-Düsen (A/B)', fr:'Vigne double jet – buses ISO (A/B)'},
+    dual:true,
+    series:[
+      {mode:'colorati', lha:150, vel:6, fil:2.5, counts:[0,0,6,0,0,0,0]},
+      {mode:'colorati', lha:300, vel:6, fil:2.5, counts:[0,0,0,0,6,0,0]}
+    ] }
+];
+
+// ---- Funzioni di calcolo "pure" (stessa formula di recalc) -------------
+function calcPressure(cfg, lha, vel, fil, counts){
+  const lminTotali = (lha * vel * fil) / 600;
+  let sumDG = 0, totGetti = 0;
+  cfg.nozzles.forEach((n, i) => {
+    const g = Math.max(0, parseFloat(counts[i]) || 0);
+    sumDG += g * n.lmin;
+    totGetti += g;
+  });
+  let pressione = null;
+  if (sumDG > 0 && lminTotali > 0) {
+    pressione = cfg.refBar * (lminTotali * lminTotali) / (sumDG * sumDG);
+  }
+  return { lminTotali, sumDG, totGetti, pressione };
+}
+function fmtP(p){ return p < 100 ? p.toFixed(2) : p.toFixed(0); }
+
+// ---- Stato: una o due "serie" di ugelli --------------------------------
+function blankSeries(mode){
+  mode = mode || 'rosa';
+  return { mode, lha:0, vel:0, fil:0, counts: DATASETS[mode].nozzles.map(() => 0) };
+}
+function cloneSeries(s){ return { mode:s.mode, lha:s.lha, vel:s.vel, fil:s.fil, counts:s.counts.slice() }; }
+function seriesIsBlank(s){ return !s.lha && !s.vel && !s.fil && s.counts.every(c => !c); }
+
+const cfgState = { dual:false, active:0, series:[blankSeries(), blankSeries()] };
+
+const presetSelect = document.getElementById('presetSelect');
+const savedSelect  = document.getElementById('savedSelect');
+const cfgName      = document.getElementById('cfgName');
+const cfgDesc      = document.getElementById('cfgDesc');
+const cfgMsg       = document.getElementById('cfgMsg');
+const dualToggle   = document.getElementById('dualToggle');
+const dualBody     = document.getElementById('dualBody');
+const serieBtns    = [document.getElementById('serieBtn0'), document.getElementById('serieBtn1')];
+const serieBadge   = document.getElementById('serieBadge');
+
+// Legge lo stato attuale dei campi (serie attiva) e lo memorizza.
+function syncSeriesFromUI(){
+  const num = el => Math.max(0, parseFloat(el.value) || 0);
+  cfgState.series[cfgState.active] = {
+    mode: currentMode, lha: num(lhaEl), vel: num(velEl), fil: num(filEl),
+    counts: getGettiInputs().map(num)
+  };
+}
+
+// Carica una serie nei campi esistenti (tab, dati trattamento, getti).
+function loadSeriesToUI(s){
+  currentMode = s.mode;
+  tabRosa.classList.toggle('active', s.mode === 'rosa');
+  tabColorati.classList.toggle('active', s.mode === 'colorati');
+  renderGrid(s.mode, s.counts);
+  lhaEl.value = s.lha; velEl.value = s.vel; filEl.value = s.fil;
+  recalc();
+}
+
+function applyConfig(cfg){
+  cfgState.dual = !!cfg.dual;
+  cfgState.series = [cloneSeries(cfg.series[0]), cfg.series[1] ? cloneSeries(cfg.series[1]) : blankSeries(cfg.series[0].mode)];
+  cfgState.active = 0;
+  dualToggle.checked = cfgState.dual;
+  loadSeriesToUI(cfgState.series[0]);
+}
+
+function selectSeries(i){
+  if (i === cfgState.active) return;
+  syncSeriesFromUI();
+  cfgState.active = i;
+  loadSeriesToUI(cfgState.series[i]);
+}
+
+// Riepilogo delle due serie (chiamato a ogni ricalcolo).
+function renderDualSummary(){
+  dualBody.hidden = !cfgState.dual;
+  serieBadge.hidden = !cfgState.dual;
+  if (!cfgState.dual) return;
+  const names = [ct('serieA'), ct('serieB')];
+  serieBadge.textContent = ct('editing')(names[cfgState.active]);
+  [0, 1].forEach(i => {
+    const s = cfgState.series[i];
+    const r = calcPressure(DATASETS[s.mode], s.lha, s.vel, s.fil, s.counts);
+    const btn = serieBtns[i];
+    btn.classList.toggle('active', i === cfgState.active);
+    btn.querySelector('.s-name').textContent = names[i];
+    btn.querySelector('.s-dose').textContent = `${s.lha} l/ha`;
+    const p = btn.querySelector('.s-press');
+    if (r.pressione == null) { p.textContent = '– bar'; p.style.color = ''; }
+    else { p.textContent = fmtP(r.pressione) + ' bar'; p.style.color = getGaugeColor(r.pressione); }
+  });
+}
+
+dualToggle.addEventListener('change', () => {
+  syncSeriesFromUI();
+  cfgState.dual = dualToggle.checked;
+  if (cfgState.dual) {
+    // Prima attivazione: la serie B parte come copia della A, da modificare.
+    if (seriesIsBlank(cfgState.series[1])) cfgState.series[1] = cloneSeries(cfgState.series[0]);
+  } else if (cfgState.active !== 0) {
+    cfgState.active = 0;
+    loadSeriesToUI(cfgState.series[0]);
+  }
+  renderDualSummary();
+});
+// "Azzera tutti i valori": oltre ai campi visibili (comportamento originale)
+// azzera anche l'altra serie, così non restano dati nascosti.
+document.getElementById('resetBtn').addEventListener('click', () => {
+  cfgState.series[1 - cfgState.active] = blankSeries();
+  renderDualSummary();
+});
+serieBtns[0].addEventListener('click', () => selectSeries(0));
+serieBtns[1].addEventListener('click', () => selectSeries(1));
+
+// ---- Validazione (import / lettura da storage) -------------------------
+function newId(){ return 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+function sanitizeSeries(s){
+  if (!s || typeof s !== 'object' || !DATASETS[s.mode]) return null;
+  const num = v => { v = parseFloat(v); return isFinite(v) && v > 0 ? v : 0; };
+  const n = DATASETS[s.mode].nozzles.length;
+  return { mode:s.mode, lha:num(s.lha), vel:num(s.vel), fil:num(s.fil),
+           counts: Array.from({length:n}, (_, i) => num(Array.isArray(s.counts) ? s.counts[i] : 0)) };
+}
+function sanitizeConfig(o){
+  if (!o || typeof o !== 'object' || typeof o.name !== 'string' || !o.name.trim() || !Array.isArray(o.series)) return null;
+  const a = sanitizeSeries(o.series[0]);
+  if (!a) return null;
+  const b = o.dual ? sanitizeSeries(o.series[1]) : null;
+  const dual = !!(o.dual && b);
+  return { id: (typeof o.id === 'string' && o.id) ? o.id : newId(), name:o.name.trim().slice(0, 60),
+           dual, series: dual ? [a, b] : [a], savedAt: Number(o.savedAt) || Date.now() };
+}
+
+// ---- Archivio locale (localStorage, per dispositivo/browser) -----------
+function loadSaved(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    return Array.isArray(arr) ? arr.map(sanitizeConfig).filter(Boolean) : [];
+  } catch (e) { return []; }
+}
+function persistSaved(list){
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); return true; }
+  catch (e) { return false; }
+}
+let savedConfigs = loadSaved();
+
+let msgTimer = null;
+function showMsg(text, isErr){
+  cfgMsg.textContent = text;
+  cfgMsg.className = 'cfg-msg ' + (isErr ? 'err' : 'ok');
+  clearTimeout(msgTimer);
+  msgTimer = setTimeout(() => { cfgMsg.textContent = ''; }, 6000);
+}
+
+// ---- Testi descrittivi -------------------------------------------------
+function nozzleSummary(s){
+  const cfg = DATASETS[s.mode], t = I18N[currentLang];
+  return cfg.nozzles.map((n, i) => {
+    if (!(s.counts[i] > 0)) return null;
+    if (!cfg.hasConv) return `${s.counts[i]}× ${n.ugello}`;
+    return n.conv === 'cieco'
+      ? `${s.counts[i]}× Ø${n.ugello} ${t.cieco}`
+      : `${s.counts[i]}× Ø${n.ugello} + ${t.convogl} ${n.conv}`;
+  }).filter(Boolean).join(' + ');
+}
+function describeConfig(cfg){
+  return (cfg.dual ? [0, 1] : [0]).map(i => {
+    const s = cfg.series[i];
+    const r = calcPressure(DATASETS[s.mode], s.lha, s.vel, s.fil, s.counts);
+    const label = cfg.dual ? (i === 0 ? ct('serieA') : ct('serieB')) + ': ' : '';
+    return `${label}${s.lha} l/ha · ${s.vel} km/h · ${s.fil} m · ${nozzleSummary(s)} → ${r.pressione == null ? '–' : fmtP(r.pressione)} bar`;
+  }).join('\n');
+}
+
+// ---- Interfaccia selezione preset / salvate ----------------------------
+function mkOpt(value, text){
+  const o = document.createElement('option');
+  o.value = value; o.textContent = text;
+  return o;
+}
+function renderPresetSelect(){
+  const keep = presetSelect.value;
+  presetSelect.innerHTML = '';
+  presetSelect.appendChild(mkOpt('', ct('presetPlaceholder')));
+  const groups = { vigneto: ct('gVigneto'), frutteto: ct('gFrutteto'), dual: ct('gDual') };
+  Object.keys(groups).forEach(g => {
+    const og = document.createElement('optgroup');
+    og.label = groups[g];
+    PRESETS.filter(p => p.group === g).forEach(p => og.appendChild(mkOpt(p.id, p.name[currentLang] || p.name.it)));
+    presetSelect.appendChild(og);
+  });
+  presetSelect.value = keep;
+}
+function renderSavedSelect(selectId){
+  const keep = selectId !== undefined ? selectId : savedSelect.value;
+  savedSelect.innerHTML = '';
+  savedSelect.appendChild(mkOpt('', savedConfigs.length ? ct('savedPlaceholder') : ct('savedEmpty')));
+  savedConfigs.slice().sort((a, b) => a.name.localeCompare(b.name)).forEach(c => {
+    savedSelect.appendChild(mkOpt(c.id, c.name + (c.dual ? ' (A/B)' : '')));
+  });
+  savedSelect.value = keep || '';
+  if (savedSelect.value !== (keep || '')) savedSelect.value = '';
+}
+function renderCfgUI(){
+  document.getElementById('lblCfgTitle').textContent  = ct('cfgTitle');
+  document.getElementById('lblPreset').textContent    = ct('preset');
+  document.getElementById('lblSavedCfg').textContent  = ct('lblSaved');
+  document.getElementById('lblCfgName').textContent   = ct('saveLbl');
+  document.getElementById('lblDualTitle').textContent = ct('dualTitle');
+  document.getElementById('lblDual').textContent      = ct('dual');
+  document.getElementById('dualHint').textContent     = ct('dualHint');
+  document.getElementById('cfgDelete').textContent    = ct('del');
+  document.getElementById('cfgSave').textContent      = ct('save');
+  document.getElementById('cfgExport').textContent    = ct('exp');
+  document.getElementById('cfgImport').textContent    = ct('imp');
+  document.getElementById('cfgReport').textContent    = ct('btnReport');
+  cfgName.placeholder = ct('namePh');
+  renderPresetSelect();
+  renderSavedSelect();
+  showDescForSelection();
+  renderDualSummary();
+}
+function showDescForSelection(){
+  const p = PRESETS.find(x => x.id === presetSelect.value);
+  const c = savedConfigs.find(x => x.id === savedSelect.value);
+  if (p) cfgDesc.textContent = describeConfig(p) + '\n' + ct('presetNote');
+  else if (c) cfgDesc.textContent = describeConfig(c);
+  else cfgDesc.textContent = '';
+}
+
+presetSelect.addEventListener('change', () => {
+  const p = PRESETS.find(x => x.id === presetSelect.value);
+  savedSelect.value = '';
+  if (p) {
+    applyConfig(p);
+    cfgName.value = p.name[currentLang] || p.name.it;
+  }
+  showDescForSelection();
+});
+savedSelect.addEventListener('change', () => {
+  const c = savedConfigs.find(x => x.id === savedSelect.value);
+  presetSelect.value = '';
+  if (c) {
+    applyConfig(c);
+    cfgName.value = c.name;
+  }
+  showDescForSelection();
+});
+
+// ---- Salva / elimina / esporta / importa -------------------------------
+document.getElementById('cfgSave').addEventListener('click', () => {
+  syncSeriesFromUI();
+  const name = cfgName.value.trim();
+  if (!name) return showMsg(ct('nameRequired'), true);
+  const used = (cfgState.dual ? [0, 1] : [0]).some(i => cfgState.series[i].counts.some(c => c > 0));
+  if (!used) return showMsg(ct('needNozzles'), true);
+  const cfg = sanitizeConfig({ name, dual:cfgState.dual, series: cfgState.dual ? cfgState.series : [cfgState.series[0]] });
+  const idx = savedConfigs.findIndex(c => c.name.toLowerCase() === cfg.name.toLowerCase());
+  if (idx >= 0) {
+    if (!confirm(ct('overwrite')(savedConfigs[idx].name))) return;
+    cfg.id = savedConfigs[idx].id;
+    savedConfigs[idx] = cfg;
+  } else {
+    savedConfigs.push(cfg);
+  }
+  if (persistSaved(savedConfigs)) showMsg(ct('msgSaved'), false);
+  else showMsg(ct('storageErr'), true);
+  presetSelect.value = '';
+  renderSavedSelect(cfg.id);
+  showDescForSelection();
+});
+
+document.getElementById('cfgDelete').addEventListener('click', () => {
+  const c = savedConfigs.find(x => x.id === savedSelect.value);
+  if (!c) return showMsg(ct('selectToDelete'), true);
+  if (!confirm(ct('delConfirm')(c.name))) return;
+  savedConfigs = savedConfigs.filter(x => x.id !== c.id);
+  if (!persistSaved(savedConfigs)) showMsg(ct('storageErr'), true);
+  else showMsg(ct('msgDeleted'), false);
+  renderSavedSelect('');
+  showDescForSelection();
+});
+
+document.getElementById('cfgExport').addEventListener('click', () => {
+  if (!savedConfigs.length) return showMsg(ct('nothingExport'), true);
+  const data = JSON.stringify({ app:'caffini-pressione', version:1, configs:savedConfigs }, null, 2);
+  const url = URL.createObjectURL(new Blob([data], { type:'application/json' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = 'caffini-configurazioni-ugelli.json';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+});
+
+const cfgFile = document.getElementById('cfgFile');
+document.getElementById('cfgImport').addEventListener('click', () => cfgFile.click());
+cfgFile.addEventListener('change', () => {
+  const f = cfgFile.files && cfgFile.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(reader.result);
+      const list = Array.isArray(parsed) ? parsed : (parsed && parsed.configs);
+      if (!Array.isArray(list)) throw new Error('format');
+      const valid = list.map(sanitizeConfig).filter(Boolean);
+      if (!valid.length) throw new Error('empty');
+      valid.forEach(c => {
+        const i = savedConfigs.findIndex(x => x.id === c.id || x.name.toLowerCase() === c.name.toLowerCase());
+        if (i >= 0) { c.id = savedConfigs[i].id; savedConfigs[i] = c; } else savedConfigs.push(c);
+      });
+      if (!persistSaved(savedConfigs)) showMsg(ct('storageErr'), true);
+      else showMsg(ct('msgImported')(valid.length), false);
+      renderSavedSelect();
+    } catch (e) {
+      showMsg(ct('importErr'), true);
+    }
+    cfgFile.value = '';
+  };
+  reader.onerror = () => { showMsg(ct('importErr'), true); cfgFile.value = ''; };
+  reader.readAsText(f);
+});
+
+
+// ---- Report PDF (anteprima + stampa / salva come PDF dal browser) ----------
+const RPT_I18N = {
+  it:{btnReport:'Crea report PDF', reportTitle:'Riepilogo configurazione ugelli', rDate:'Data', rConfig:'Configurazione', rFamily:'Tipo di ugelli',
+      famRosa:'Piastrine ceramica Ø18', famIso:'Ugelli a norma ISO', rNozzlesTitle:'Ugelli selezionati', rNozzle:'Ugello', rJets:'N° getti',
+      rFlow:'l/min per getto', rLminRow:'l/min totali', rTotal:'Totale', rPressure:'Pressione di lavoro calcolata',
+      rWarn:"Pressione fuori dall'intervallo ottimale (4–12 bar): valuta un'altra combinazione di ugelli.",
+      rNote:'Valori calcolati a scopo indicativo: verificare in campo con il manometro e la taratura della macchina.',
+      rPrint:'Stampa / Salva PDF', rClose:'Chiudi'},
+  en:{btnReport:'Create PDF report', reportTitle:'Nozzle configuration summary', rDate:'Date', rConfig:'Configuration', rFamily:'Nozzle type',
+      famRosa:'Ceramic plates Ø18', famIso:'ISO standard nozzles', rNozzlesTitle:'Selected nozzles', rNozzle:'Nozzle', rJets:'No. of jets',
+      rFlow:'l/min per jet', rLminRow:'Total l/min', rTotal:'Total', rPressure:'Calculated working pressure',
+      rWarn:'Pressure outside the optimal range (4–12 bar): consider a different nozzle combination.',
+      rNote:'Calculated values are indicative: verify in the field with the pressure gauge and machine calibration.',
+      rPrint:'Print / Save PDF', rClose:'Close'},
+  es:{btnReport:'Crear informe PDF', reportTitle:'Resumen de la configuración de boquillas', rDate:'Fecha', rConfig:'Configuración', rFamily:'Tipo de boquillas',
+      famRosa:'Placas de cerámica Ø18', famIso:'Boquillas norma ISO', rNozzlesTitle:'Boquillas seleccionadas', rNozzle:'Boquilla', rJets:'N.º de chorros',
+      rFlow:'l/min por chorro', rLminRow:'l/min totales', rTotal:'Total', rPressure:'Presión de trabajo calculada',
+      rWarn:'Presión fuera del intervalo óptimo (4–12 bar): valora otra combinación de boquillas.',
+      rNote:'Valores calculados a título indicativo: verificar en campo con el manómetro y la calibración de la máquina.',
+      rPrint:'Imprimir / Guardar PDF', rClose:'Cerrar'},
+  de:{btnReport:'PDF-Bericht erstellen', reportTitle:'Zusammenfassung der Düsenkonfiguration', rDate:'Datum', rConfig:'Konfiguration', rFamily:'Düsentyp',
+      famRosa:'Keramikplättchen Ø18', famIso:'Düsen nach ISO-Norm', rNozzlesTitle:'Ausgewählte Düsen', rNozzle:'Düse', rJets:'Anzahl Düsen',
+      rFlow:'l/min je Düse', rLminRow:'l/min gesamt', rTotal:'Summe', rPressure:'Berechneter Arbeitsdruck',
+      rWarn:'Druck außerhalb des optimalen Bereichs (4–12 bar): andere Düsenkombination prüfen.',
+      rNote:'Berechnete Werte sind Richtwerte: im Feld mit Manometer und Maschinenkalibrierung überprüfen.',
+      rPrint:'Drucken / Als PDF speichern', rClose:'Schließen'},
+  fr:{btnReport:'Créer un rapport PDF', reportTitle:'Récapitulatif de la configuration des buses', rDate:'Date', rConfig:'Configuration', rFamily:'Type de buses',
+      famRosa:'Pastilles céramique Ø18', famIso:'Buses norme ISO', rNozzlesTitle:'Buses sélectionnées', rNozzle:'Buse', rJets:'Nb de jets',
+      rFlow:'l/min par jet', rLminRow:'l/min totaux', rTotal:'Total', rPressure:'Pression de travail calculée',
+      rWarn:"Pression hors de la plage optimale (4–12 bar) : envisagez une autre combinaison de buses.",
+      rNote:"Valeurs calculées à titre indicatif : à vérifier sur le terrain avec le manomètre et l'étalonnage de la machine.",
+      rPrint:'Imprimer / Enregistrer en PDF', rClose:'Fermer'}
+};
+Object.keys(RPT_I18N).forEach(l => Object.assign(CFG_I18N[l], RPT_I18N[l]));
+
+function esc(s){
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function reportSeriesHTML(i){
+  const s = cfgState.series[i], cfg = DATASETS[s.mode], t = I18N[currentLang];
+  const r = calcPressure(cfg, s.lha, s.vel, s.fil, s.counts);
+  const rows = cfg.nozzles.map((n, k) => {
+    const g = Math.max(0, s.counts[k] || 0);
+    if (!(g > 0)) return '';
+    const label = cfg.hasConv ? `Ø ${n.ugello} mm` : `${t.ugello} ${n.ugello}`;
+    const sw = n.color ? `<span class="r-sw" style="background:${n.color}"></span>` : '';
+    const conv = cfg.hasConv ? `<td>${esc(t.convoglLabel(n.conv))}</td>` : '';
+    return `<tr><td>${sw}${esc(label)}</td>${conv}<td class="num">${g}</td><td class="num">${n.lmin.toFixed(2)}</td><td class="num">${(g * n.lmin).toFixed(2)}</td></tr>`;
+  }).join('');
+  const convTh = cfg.hasConv ? `<th>${esc(t.convogliatore.charAt(0).toUpperCase() + t.convogliatore.slice(1))}</th>` : '';
+  const emptyCols = cfg.hasConv ? 2 : 1;
+  const fam = s.mode === 'rosa' ? ct('famRosa') : ct('famIso');
+  const title = cfgState.dual ? `<h3>${esc(i === 0 ? ct('serieA') : ct('serieB'))}</h3>` : '';
+  let press = '';
+  if (r.pressione != null) {
+    const col = getGaugeColor(r.pressione);
+    const out = r.pressione < 4 || r.pressione >= 12;
+    press = `<div class="r-press" style="border-color:${col}"><span>${esc(ct('rPressure'))} </span><b style="color:${col}">${fmtP(r.pressione)} bar</b></div>`
+          + (out ? `<div class="r-warn">⚠ ${esc(ct('rWarn'))}</div>` : '');
+  }
+  return `<div class="r-series">${title}
+    <div class="r-fam">${esc(ct('rFamily'))}: ${esc(fam)}</div>
+    <div class="r-kv">
+      <div><b>${s.lha}</b><span>${esc(t.dose)} (l/ha)</span></div>
+      <div><b>${s.vel}</b><span>${esc(t.velocita)} (km/h)</span></div>
+      <div><b>${s.fil}</b><span>${esc(t.filari)} (m)</span></div>
+      <div><b>${r.lminTotali.toFixed(2)}</b><span>${esc(t.lminTotali)}</span></div>
+    </div>
+    <div class="r-sub">${esc(ct('rNozzlesTitle'))}</div>
+    <table>
+      <thead><tr><th>${esc(ct('rNozzle'))}</th>${convTh}<th class="num">${esc(ct('rJets'))}</th><th class="num">${esc(ct('rFlow'))} @ ${cfg.refBar} bar</th><th class="num">${esc(ct('rLminRow'))}</th></tr></thead>
+      <tbody>${rows || `<tr><td colspan="${emptyCols + 3}">–</td></tr>`}</tbody>
+      <tfoot><tr><td colspan="${emptyCols}">${esc(ct('rTotal'))}</td><td class="num">${r.totGetti}</td><td></td><td class="num">${r.sumDG.toFixed(2)}</td></tr></tfoot>
+    </table>
+    ${press}
+  </div>`;
+}
+
+let reportPrevTitle = null;
+function closeReport(){
+  const v = document.getElementById('reportView');
+  if (v) v.remove();
+  document.removeEventListener('keydown', reportKeyHandler);
+  if (reportPrevTitle !== null) { document.title = reportPrevTitle; reportPrevTitle = null; }
+}
+function reportKeyHandler(e){ if (e.key === 'Escape') closeReport(); }
+
+function openReport(){
+  syncSeriesFromUI();
+  const idxs = cfgState.dual ? [0, 1] : [0];
+  if (!idxs.some(i => cfgState.series[i].counts.some(c => c > 0))) return showMsg(ct('needNozzles'), true);
+  closeReport();
+  const locale = { it:'it-IT', en:'en-GB', es:'es-ES', de:'de-DE', fr:'fr-FR' }[currentLang] || 'it-IT';
+  const now = new Date();
+  const dateStr = now.toLocaleDateString(locale) + ' ' + now.toLocaleTimeString(locale, { hour:'2-digit', minute:'2-digit' });
+  const name = cfgName.value.trim();
+  const logo = document.querySelector('.logo-wrap img');
+  const logoHtml = logo && logo.src ? `<img src="${esc(logo.src)}" alt="CAFFINI">` : '';
+  const v = document.createElement('div');
+  v.id = 'reportView';
+  v.innerHTML = `
+    <div class="r-bar">
+      <button type="button" class="r-btn" id="rClose">${esc(ct('rClose'))}</button>
+      <button type="button" class="r-btn primary" id="rPrint">${esc(ct('rPrint'))}</button>
+    </div>
+    <div class="r-page">
+      <div class="r-head">
+        <div>
+          <h1 class="r-title">${esc(ct('reportTitle'))}</h1>
+          <div class="r-meta">${name ? esc(ct('rConfig')) + ': <b>' + esc(name) + '</b><br>' : ''}${esc(ct('rDate'))}: ${esc(dateStr)}</div>
+        </div>
+        ${logoHtml}
+      </div>
+      ${idxs.map(reportSeriesHTML).join('')}
+      <div class="r-foot">${esc(ct('rNote'))}</div>
+    </div>`;
+  document.body.appendChild(v);
+  v.scrollTop = 0;
+  // il titolo diventa il nome file proposto dal browser per il PDF
+  reportPrevTitle = document.title;
+  const safe = (name || 'report').replace(/[^\w\-]+/g, '_').slice(0, 40);
+  document.title = 'CAFFINI_' + safe + '_' + now.toISOString().slice(0, 10);
+  document.getElementById('rClose').addEventListener('click', closeReport);
+  document.getElementById('rPrint').addEventListener('click', () => window.print());
+  document.addEventListener('keydown', reportKeyHandler);
+}
+document.getElementById('cfgReport').addEventListener('click', openReport);
+
+
+renderCfgUI();
 
 recalc();
 </script>
