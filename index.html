@@ -1510,28 +1510,28 @@ document.getElementById('cfgReport').addEventListener('click', openReport);
 
 // =====================================================================
 // DISPOSIZIONE UGELLI — schema illustrativo (vista posteriore dell'atomizzatore)
-// Default: ugelli più piccoli in alto (chioma), più grandi in basso (tronco).
+// Default: ugelli con il foro più grande in alto (chioma, più vegetazione), più piccoli in basso (tronco).
 // Si possono spostare trascinandoli, oppure toccandone uno e poi un altro.
 // =====================================================================
 const LAY_I18N = {
   it:{ title:'Disposizione ugelli (illustrativa)', hi:'ALTA', mid:'MEDIA', lo:'BASSA', sym:'Sposta in modo simmetrico su entrambi i lati',
-       hint:'Di default i più piccoli sono in alto (chioma) e i più grandi in basso (tronco). Trascina un ugello su un altro per scambiarli, oppure toccane uno e poi l’altro. Schema solo indicativo.',
+       hint:'Di default i fori più grandi sono in alto, dove la vegetazione è maggiore (chioma), e i più piccoli in basso (tronco). Trascina un ugello su un altro per scambiarli, oppure toccane uno e poi l’altro. Schema solo indicativo.',
        odd:'Numero di ugelli dispari: un lato ha un ugello in più.', reset:'Ripristina disposizione consigliata', ring:'anello = con convogliatore', empty:'Imposta il numero di getti per vedere la disposizione.',
        sx:'SX', dx:'DX', rLay:'Disposizione ugelli (vista posteriore)' },
   en:{ title:'Nozzle layout (illustrative)', hi:'HIGH', mid:'MIDDLE', lo:'LOW', sym:'Move symmetrically on both sides',
-       hint:'By default the smallest nozzles are at the top (canopy) and the largest at the bottom (trunk). Drag a nozzle onto another to swap them, or tap one and then the other. Indicative diagram only.',
+       hint:'By default the largest orifices are at the top, where foliage is densest (canopy), and the smallest at the bottom (trunk). Drag a nozzle onto another to swap them, or tap one and then the other. Indicative diagram only.',
        odd:'Odd number of nozzles: one side has one more.', reset:'Restore recommended layout', ring:'ring = with deflector', empty:'Set the number of jets to see the layout.',
        sx:'L', dx:'R', rLay:'Nozzle layout (rear view)' },
   es:{ title:'Disposición de boquillas (ilustrativa)', hi:'ALTA', mid:'MEDIA', lo:'BAJA', sym:'Mover de forma simétrica en ambos lados',
-       hint:'Por defecto las más pequeñas van arriba (copa) y las más grandes abajo (tronco). Arrastra una boquilla sobre otra para intercambiarlas, o toca una y luego la otra. Esquema solo orientativo.',
+       hint:'Por defecto los orificios más grandes van arriba, donde hay más vegetación (copa), y los más pequeños abajo (tronco). Arrastra una boquilla sobre otra para intercambiarlas, o toca una y luego la otra. Esquema solo orientativo.',
        odd:'Número de boquillas impar: un lado tiene una más.', reset:'Restablecer disposición recomendada', ring:'anillo = con deflector', empty:'Indica el número de chorros para ver la disposición.',
        sx:'IZ', dx:'DE', rLay:'Disposición de boquillas (vista trasera)' },
   de:{ title:'Düsenanordnung (schematisch)', hi:'OBEN', mid:'MITTE', lo:'UNTEN', sym:'Auf beiden Seiten symmetrisch verschieben',
-       hint:'Standardmäßig sind die kleinsten Düsen oben (Laubwand) und die größten unten (Stamm). Eine Düse auf eine andere ziehen, um sie zu tauschen, oder erst eine, dann die andere antippen. Nur schematisch.',
+       hint:'Standardmäßig sind die größten Düsen oben, wo die Laubwand am dichtesten ist, und die kleinsten unten (Stamm). Eine Düse auf eine andere ziehen, um sie zu tauschen, oder erst eine, dann die andere antippen. Nur schematisch.',
        odd:'Ungerade Düsenzahl: eine Seite hat eine Düse mehr.', reset:'Empfohlene Anordnung wiederherstellen', ring:'Ring = mit Leitblech', empty:'Anzahl der Düsen eingeben, um die Anordnung zu sehen.',
        sx:'L', dx:'R', rLay:'Düsenanordnung (Ansicht von hinten)' },
   fr:{ title:'Disposition des buses (illustrative)', hi:'HAUT', mid:'MILIEU', lo:'BAS', sym:'Déplacer de façon symétrique des deux côtés',
-       hint:'Par défaut, les plus petites buses sont en haut (frondaison) et les plus grosses en bas (tronc). Faites glisser une buse sur une autre pour les échanger, ou touchez-en une puis l’autre. Schéma indicatif.',
+       hint:'Par défaut, les plus gros orifices sont en haut, là où la végétation est la plus dense (frondaison), et les plus petits en bas (tronc). Faites glisser une buse sur une autre pour les échanger, ou touchez-en une puis l’autre. Schéma indicatif.',
        odd:'Nombre de buses impair : un côté a une buse de plus.', reset:'Rétablir la disposition conseillée', ring:'anneau = avec déflecteur', empty:'Indiquez le nombre de jets pour voir la disposition.',
        sx:'G', dx:'D', rLay:'Disposition des buses (vue arrière)' }
 };
@@ -1546,7 +1546,7 @@ function nozLabel(mode, n){
 }
 function defaultLayout(s){
   const cfg = DATASETS[s.mode], all = [];
-  cfg.nozzles.map((n, i) => i).sort((a, b) => cfg.nozzles[a].lmin - cfg.nozzles[b].lmin)
+  cfg.nozzles.map((n, i) => i).sort((a, b) => cfg.nozzles[b].lmin - cfg.nozzles[a].lmin)
     .forEach(i => { for (let k = 0; k < Math.round(s.counts[i] || 0); k++) all.push(i); });
   const L = [], R = [];
   all.forEach((x, k) => (k % 2 ? R : L).push(x));
@@ -1630,7 +1630,7 @@ function renderLayout(){
   if (!tot) { host.innerHTML = `<div class="hint" style="font-size:12px;color:var(--text-dim)">${esc(lt('empty'))}</div>`; document.getElementById('layoutLegend').innerHTML = ''; document.getElementById('layoutHint').textContent = ''; return; }
   host.innerHTML = layoutSVG(s);
   if (layPick) { const g = host.querySelector(`.lnz[data-side="${layPick.side}"][data-k="${layPick.k}"]`); if (g) g.classList.add('pick'); else layPick = null; }
-  const used = cfg.nozzles.map((n, i) => i).filter(i => s.counts[i] > 0).sort((a, b) => cfg.nozzles[a].lmin - cfg.nozzles[b].lmin);
+  const used = cfg.nozzles.map((n, i) => i).filter(i => s.counts[i] > 0).sort((a, b) => cfg.nozzles[b].lmin - cfg.nozzles[a].lmin);
   document.getElementById('layoutLegend').innerHTML = used.map(i => {
     const n = cfg.nozzles[i], ring = s.mode === 'rosa' && n.conv !== 'cieco';
     return `<span><i class="${ring ? 'ring' : ''}" style="background:${nozColor(s.mode, n)}"></i>${Math.round(s.counts[i])}× ${esc(nozLabel(s.mode, n))}</span>`;
@@ -1706,7 +1706,7 @@ window.CAFFINI_TOUR = {
          s3:'Inserisci la dose di prodotto, la velocità di avanzamento e la larghezza del filare.',
          s4:'Indica quanti getti sono aperti per ogni tipo di ugello.',
          s5:'Il manometro mostra subito la pressione da impostare, i litri al minuto totali e i getti attivi.',
-         s6:'Lo schema mostra dove vanno gli ugelli: i più piccoli in alto sulla chioma, i più grandi in basso verso il tronco.',
+         s6:'Lo schema mostra dove vanno gli ugelli: i fori più grandi in alto, dove c’è più vegetazione, i più piccoli in basso verso il tronco.',
          s7:'Per cambiare posizione trascina un ugello su un altro, oppure toccane uno e poi l’altro: si scambiano su entrambi i lati.',
          s8:'Puoi partire da un preset, salvare le tue configurazioni e creare il report PDF.',
          s9:'Con il portagetto doppio gestisci due serie di ugelli: A (+) per il dosaggio maggiore e B (−) per quello minore.' },
@@ -1715,7 +1715,7 @@ window.CAFFINI_TOUR = {
          s3:'Enter the product rate, the forward speed and the row width.',
          s4:'Enter how many jets are open for each nozzle type.',
          s5:'The gauge immediately shows the pressure to set, the total litres per minute and the active jets.',
-         s6:'The diagram shows where the nozzles go: the smallest at the top on the canopy, the largest at the bottom towards the trunk.',
+         s6:'The diagram shows where the nozzles go: the largest orifices at the top, where foliage is densest, the smallest at the bottom towards the trunk.',
          s7:'To change a position drag one nozzle onto another, or tap one and then the other: they swap on both sides.',
          s8:'You can start from a preset, save your own configurations and create the PDF report.',
          s9:'With the double nozzle body you manage two nozzle sets: A (+) for the higher rate and B (−) for the lower one.' },
@@ -1724,7 +1724,7 @@ window.CAFFINI_TOUR = {
          s3:'Introduce la dosis de producto, la velocidad de avance y la anchura de la calle.',
          s4:'Indica cuántos chorros están abiertos para cada tipo de boquilla.',
          s5:'El manómetro muestra al instante la presión a ajustar, los litros por minuto totales y los chorros activos.',
-         s6:'El esquema muestra dónde van las boquillas: las más pequeñas arriba en la copa, las más grandes abajo hacia el tronco.',
+         s6:'El esquema muestra dónde van las boquillas: los orificios más grandes arriba, donde hay más vegetación, los más pequeños abajo hacia el tronco.',
          s7:'Para cambiar la posición arrastra una boquilla sobre otra, o toca una y luego la otra: se intercambian en ambos lados.',
          s8:'Puedes partir de un preset, guardar tus configuraciones y crear el informe PDF.',
          s9:'Con el portaboquillas doble gestionas dos series: A (+) para la dosis mayor y B (−) para la menor.' },
@@ -1733,7 +1733,7 @@ window.CAFFINI_TOUR = {
          s3:'Geben Sie Aufwandmenge, Fahrgeschwindigkeit und Reihenbreite ein.',
          s4:'Geben Sie an, wie viele Düsen je Düsentyp geöffnet sind.',
          s5:'Das Manometer zeigt sofort den einzustellenden Druck, die Gesamtliter pro Minute und die aktiven Düsen.',
-         s6:'Das Schema zeigt die Anordnung: die kleinsten Düsen oben an der Laubwand, die größten unten zum Stamm.',
+         s6:'Das Schema zeigt die Anordnung: die größten Düsen oben, wo die Laubwand am dichtesten ist, die kleinsten unten zum Stamm.',
          s7:'Zum Umstellen eine Düse auf eine andere ziehen oder erst eine, dann die andere antippen: sie tauschen auf beiden Seiten.',
          s8:'Sie können mit einer Voreinstellung starten, eigene Konfigurationen speichern und den PDF-Bericht erstellen.',
          s9:'Mit dem Doppeldüsenhalter verwalten Sie zwei Sätze: A (+) für die höhere und B (−) für die niedrigere Aufwandmenge.' },
@@ -1742,7 +1742,7 @@ window.CAFFINI_TOUR = {
          s3:'Saisissez la dose de produit, la vitesse d’avancement et la largeur de l’inter-rang.',
          s4:'Indiquez combien de jets sont ouverts pour chaque type de buse.',
          s5:'Le manomètre affiche aussitôt la pression à régler, les litres par minute au total et les jets actifs.',
-         s6:'Le schéma montre la position des buses : les plus petites en haut sur la frondaison, les plus grosses en bas vers le tronc.',
+         s6:'Le schéma montre la position des buses : les plus gros orifices en haut, là où la végétation est la plus dense, les plus petits en bas vers le tronc.',
          s7:'Pour changer la position, faites glisser une buse sur une autre, ou touchez-en une puis l’autre : elles s’échangent des deux côtés.',
          s8:'Vous pouvez partir d’un préréglage, enregistrer vos configurations et créer le rapport PDF.',
          s9:'Avec le porte-jet double, vous gérez deux séries : A (+) pour la dose la plus élevée et B (−) pour la plus faible.' }
