@@ -910,8 +910,8 @@ const CFG_I18N = {
     exp:'Esporta', imp:'Importa', gVigneto:'Vigneto', gFrutteto:'Frutteto', gDual:'Doppio getto',
     presetNote:'Valori indicativi di partenza: verifica e adatta alla tua macchina, poi salva la tua configurazione.',
     dualTitle:'Portagetto doppio', dual:'Portagetto doppio: due serie di ugelli sulla stessa macchina',
-    dualHint:'Ogni serie ha i propri l/ha, velocità, larghezza filare e ugelli: Serie A (+) per il dosaggio maggiore, Serie B (−) per il dosaggio minore. Si salvano insieme.',
-    serieA:'Serie A (+)', serieB:'Serie B (−)', editing:(s)=>`Stai modificando: ${s}`,
+    dualHint:'Ogni serie ha i propri l/ha, velocità, larghezza filare e ugelli: Serie A (Lato +) per il dosaggio maggiore, Serie B (Lato −) per il dosaggio minore, di serie con ugelli ISO arancioni. Si salvano insieme.',
+    serieA:'Serie A (Lato +)', serieB:'Serie B (Lato −)', editing:(s)=>`Stai modificando: ${s}`,
     nameRequired:'Inserisci un nome per la configurazione.', needNozzles:'Imposta almeno un ugello con n° getti maggiore di 0.',
     msgSaved:'Configurazione salvata.', overwrite:(n)=>`Esiste già una configurazione "${n}". Sovrascrivere?`,
     delConfirm:(n)=>`Eliminare "${n}"?`, msgDeleted:'Configurazione eliminata.',
@@ -926,8 +926,8 @@ const CFG_I18N = {
     exp:'Export', imp:'Import', gVigneto:'Vineyard', gFrutteto:'Orchard', gDual:'Double jet',
     presetNote:'Indicative starting values: check and adapt them to your machine, then save your own configuration.',
     dualTitle:'Double nozzle body', dual:'Double nozzle body: two nozzle sets on the same machine',
-    dualHint:'Each set has its own l/ha, speed, row width and nozzles: Set A (+) for the higher rate, Set B (−) for the lower rate. They are saved together.',
-    serieA:'Set A (+)', serieB:'Set B (−)', editing:(s)=>`Editing: ${s}`,
+    dualHint:'Each set has its own l/ha, speed, row width and nozzles: Set A (Side +) for the higher rate, Set B (Side −) for the lower rate, with orange ISO nozzles by default. They are saved together.',
+    serieA:'Set A (Side +)', serieB:'Set B (Side −)', editing:(s)=>`Editing: ${s}`,
     nameRequired:'Enter a name for the configuration.', needNozzles:'Set at least one nozzle with a number of jets greater than 0.',
     msgSaved:'Configuration saved.', overwrite:(n)=>`A configuration named "${n}" already exists. Overwrite?`,
     delConfirm:(n)=>`Delete "${n}"?`, msgDeleted:'Configuration deleted.',
@@ -942,8 +942,8 @@ const CFG_I18N = {
     exp:'Exportar', imp:'Importar', gVigneto:'Viñedo', gFrutteto:'Frutal', gDual:'Doble chorro',
     presetNote:'Valores orientativos de partida: compruébalos y adáptalos a tu máquina, luego guarda tu configuración.',
     dualTitle:'Portaboquillas doble', dual:'Portaboquillas doble: dos series de boquillas en la misma máquina',
-    dualHint:'Cada serie tiene sus propios l/ha, velocidad, anchura de calle y boquillas: Serie A (+) para la dosis mayor, Serie B (−) para la dosis menor. Se guardan juntas.',
-    serieA:'Serie A (+)', serieB:'Serie B (−)', editing:(s)=>`Estás editando: ${s}`,
+    dualHint:'Cada serie tiene sus propios l/ha, velocidad, anchura de calle y boquillas: Serie A (Lado +) para la dosis mayor, Serie B (Lado −) para la dosis menor, por defecto con boquillas ISO naranjas. Se guardan juntas.',
+    serieA:'Serie A (Lado +)', serieB:'Serie B (Lado −)', editing:(s)=>`Estás editando: ${s}`,
     nameRequired:'Introduce un nombre para la configuración.', needNozzles:'Configura al menos una boquilla con n.º de chorros mayor que 0.',
     msgSaved:'Configuración guardada.', overwrite:(n)=>`Ya existe una configuración "${n}". ¿Sobrescribir?`,
     delConfirm:(n)=>`¿Eliminar "${n}"?`, msgDeleted:'Configuración eliminada.',
@@ -958,8 +958,8 @@ const CFG_I18N = {
     exp:'Exportieren', imp:'Importieren', gVigneto:'Weinberg', gFrutteto:'Obstanlage', gDual:'Doppeldüse',
     presetNote:'Richtwerte zum Starten: bitte prüfen und an die Maschine anpassen, dann die eigene Konfiguration speichern.',
     dualTitle:'Doppel-Düsenhalter', dual:'Doppel-Düsenhalter: zwei Düsensätze an derselben Maschine',
-    dualHint:'Jeder Satz hat eigene l/ha, Geschwindigkeit, Reihenbreite und Düsen: Satz A (+) für die höhere, Satz B (−) für die niedrigere Aufwandmenge. Sie werden zusammen gespeichert.',
-    serieA:'Satz A (+)', serieB:'Satz B (−)', editing:(s)=>`Bearbeitet wird: ${s}`,
+    dualHint:'Jeder Satz hat eigene l/ha, Geschwindigkeit, Reihenbreite und Düsen: Satz A (Seite +) für die höhere, Satz B (Seite −) für die niedrigere Aufwandmenge, standardmäßig mit orangen ISO-Düsen. Sie werden zusammen gespeichert.',
+    serieA:'Satz A (Seite +)', serieB:'Satz B (Seite −)', editing:(s)=>`Bearbeitet wird: ${s}`,
     nameRequired:'Bitte einen Namen für die Konfiguration eingeben.', needNozzles:'Mindestens eine Düse mit Anzahl größer als 0 einstellen.',
     msgSaved:'Konfiguration gespeichert.', overwrite:(n)=>`Die Konfiguration "${n}" existiert bereits. Überschreiben?`,
     delConfirm:(n)=>`"${n}" löschen?`, msgDeleted:'Konfiguration gelöscht.',
@@ -974,8 +974,8 @@ const CFG_I18N = {
     exp:'Exporter', imp:'Importer', gVigneto:'Vigne', gFrutteto:'Verger', gDual:'Double jet',
     presetNote:'Valeurs indicatives de départ : vérifiez-les et adaptez-les à votre machine, puis enregistrez votre configuration.',
     dualTitle:'Porte-buse double', dual:'Porte-buse double : deux séries de buses sur la même machine',
-    dualHint:'Chaque série a ses propres l/ha, vitesse, largeur d’inter-rang et buses : Série A (+) pour la dose la plus élevée, Série B (−) pour la dose la plus faible. Elles sont enregistrées ensemble.',
-    serieA:'Série A (+)', serieB:'Série B (−)', editing:(s)=>`Modification en cours : ${s}`,
+    dualHint:'Chaque série a ses propres l/ha, vitesse, largeur d’inter-rang et buses : Série A (Côté +) pour la dose la plus élevée, Série B (Côté −) pour la dose la plus faible, par défaut avec des buses ISO orange. Elles sont enregistrées ensemble.',
+    serieA:'Série A (Côté +)', serieB:'Série B (Côté −)', editing:(s)=>`Modification en cours : ${s}`,
     nameRequired:'Saisissez un nom pour la configuration.', needNozzles:'Réglez au moins une buse avec un nombre de jets supérieur à 0.',
     msgSaved:'Configuration enregistrée.', overwrite:(n)=>`La configuration "${n}" existe déjà. Écraser ?`,
     delConfirm:(n)=>`Supprimer "${n}" ?`, msgDeleted:'Configuration supprimée.',
@@ -1008,11 +1008,11 @@ const PRESETS = [
     dual:false,
     series:[{mode:'rosa', lha:1000, vel:6, fil:4, counts:[0,0,2,0,6,0,4,0]}] },
   { id:'vigneto-doppio-ceramica', group:'dual',
-    name:{it:'Vigneto doppio getto – ceramica (A/B)', en:'Vineyard double jet – ceramic (A/B)', es:'Viñedo doble chorro – cerámica (A/B)', de:'Weinberg Doppeldüse – Keramik (A/B)', fr:'Vigne double jet – céramique (A/B)'},
+    name:{it:'Vigneto doppio getto – A ceramica / B ISO arancio', en:'Vineyard double jet – A ceramic / B ISO orange', es:'Viñedo doble chorro – A cerámica / B ISO naranja', de:'Weinberg Doppeldüse – A Keramik / B ISO orange', fr:'Vigne double jet – A céramique / B ISO orange'},
     dual:true,
     series:[
       {mode:'rosa', lha:200, vel:8, fil:2.5, counts:[0,8,0,0,0,0,0,0]},
-      {mode:'rosa', lha:160, vel:8, fil:2.5, counts:[8,0,0,0,0,0,0,0]}
+      {mode:'colorati', lha:160, vel:8, fil:2.5, counts:[0,0,8,0,0,0,0]}
     ] },
   { id:'vigneto-doppio-iso', group:'dual',
     name:{it:'Vigneto doppio getto – ugelli ISO (A/B)', en:'Vineyard double jet – ISO nozzles (A/B)', es:'Viñedo doble chorro – boquillas ISO (A/B)', de:'Weinberg Doppeldüse – ISO-Düsen (A/B)', fr:'Vigne double jet – buses ISO (A/B)'},
@@ -1121,7 +1121,13 @@ dualToggle.addEventListener('change', () => {
   cfgState.dual = dualToggle.checked;
   if (cfgState.dual) {
     // Prima attivazione: la serie B parte come copia della A, da modificare.
-    if (seriesIsBlank(cfgState.series[1])) cfgState.series[1] = cloneSeries(cfgState.series[0]);
+    if (seriesIsBlank(cfgState.series[1])) {
+      const a = cfgState.series[0], jets = Math.round(a.counts.reduce((x, c) => x + (c || 0), 0)) || 8;
+      const b = blankSeries('colorati');
+      const iOrange = DATASETS.colorati.nozzles.findIndex(n => n.ugello === '8001');
+      b.lha = a.lha; b.vel = a.vel; b.fil = a.fil; b.counts[iOrange] = jets;
+      cfgState.series[1] = b;   // lato −: di serie ugelli ISO arancioni
+    }
   } else if (cfgState.active !== 0) {
     cfgState.active = 0;
     loadSeriesToUI(cfgState.series[0]);
@@ -1709,7 +1715,7 @@ window.CAFFINI_TOUR = {
          s6:'Lo schema mostra dove vanno gli ugelli: i fori più grandi in alto, dove c’è più vegetazione, i più piccoli in basso verso il tronco.',
          s7:'Per cambiare posizione trascina un ugello su un altro, oppure toccane uno e poi l’altro: si scambiano su entrambi i lati.',
          s8:'Puoi partire da un preset, salvare le tue configurazioni e creare il report PDF.',
-         s9:'Con il portagetto doppio gestisci due serie di ugelli: A (+) per il dosaggio maggiore e B (−) per quello minore.' },
+         s9:'Con il portagetto doppio gestisci due serie di ugelli: A (lato +) per il dosaggio maggiore e B (lato −), di serie con ugelli ISO arancioni, per quello minore.' },
     en:{ s1:'This tool helps you choose the airblast sprayer nozzles and calculates the working pressure from rate, speed, row width and fitted nozzles.',
          s2:'Choose the nozzle type you use: ceramic plates or ISO colour-coded nozzles.',
          s3:'Enter the product rate, the forward speed and the row width.',
@@ -1718,7 +1724,7 @@ window.CAFFINI_TOUR = {
          s6:'The diagram shows where the nozzles go: the largest orifices at the top, where foliage is densest, the smallest at the bottom towards the trunk.',
          s7:'To change a position drag one nozzle onto another, or tap one and then the other: they swap on both sides.',
          s8:'You can start from a preset, save your own configurations and create the PDF report.',
-         s9:'With the double nozzle body you manage two nozzle sets: A (+) for the higher rate and B (−) for the lower one.' },
+         s9:'With the double nozzle body you manage two nozzle sets: A (side +) for the higher rate and B (side −), with orange ISO nozzles by default, for the lower one.' },
     es:{ s1:'Esta herramienta ayuda a elegir las boquillas del atomizador y calcula la presión de trabajo a partir de dosis, velocidad, calle y boquillas montadas.',
          s2:'Elige el tipo de boquilla que usas: placas de cerámica o boquillas de colores según norma ISO.',
          s3:'Introduce la dosis de producto, la velocidad de avance y la anchura de la calle.',
@@ -1727,7 +1733,7 @@ window.CAFFINI_TOUR = {
          s6:'El esquema muestra dónde van las boquillas: los orificios más grandes arriba, donde hay más vegetación, los más pequeños abajo hacia el tronco.',
          s7:'Para cambiar la posición arrastra una boquilla sobre otra, o toca una y luego la otra: se intercambian en ambos lados.',
          s8:'Puedes partir de un preset, guardar tus configuraciones y crear el informe PDF.',
-         s9:'Con el portaboquillas doble gestionas dos series: A (+) para la dosis mayor y B (−) para la menor.' },
+         s9:'Con el portaboquillas doble gestionas dos series: A (lado +) para la dosis mayor y B (lado −), por defecto con boquillas ISO naranjas, para la menor.' },
     de:{ s1:'Dieses Tool hilft bei der Düsenauswahl für Sprühgeräte und berechnet den Arbeitsdruck aus Aufwandmenge, Geschwindigkeit, Reihenbreite und Düsen.',
          s2:'Wählen Sie den verwendeten Düsentyp: Keramikplättchen oder farbcodierte ISO-Düsen.',
          s3:'Geben Sie Aufwandmenge, Fahrgeschwindigkeit und Reihenbreite ein.',
@@ -1736,7 +1742,7 @@ window.CAFFINI_TOUR = {
          s6:'Das Schema zeigt die Anordnung: die größten Düsen oben, wo die Laubwand am dichtesten ist, die kleinsten unten zum Stamm.',
          s7:'Zum Umstellen eine Düse auf eine andere ziehen oder erst eine, dann die andere antippen: sie tauschen auf beiden Seiten.',
          s8:'Sie können mit einer Voreinstellung starten, eigene Konfigurationen speichern und den PDF-Bericht erstellen.',
-         s9:'Mit dem Doppeldüsenhalter verwalten Sie zwei Sätze: A (+) für die höhere und B (−) für die niedrigere Aufwandmenge.' },
+         s9:'Mit dem Doppeldüsenhalter verwalten Sie zwei Sätze: A (Seite +) für die höhere und B (Seite −), standardmäßig mit orangen ISO-Düsen, für die niedrigere Aufwandmenge.' },
     fr:{ s1:'Cet outil aide à choisir les buses de l’atomiseur et calcule la pression de travail à partir de la dose, de la vitesse, de l’inter-rang et des buses.',
          s2:'Choisissez le type de buse utilisé : pastilles céramique ou buses de couleur à la norme ISO.',
          s3:'Saisissez la dose de produit, la vitesse d’avancement et la largeur de l’inter-rang.',
@@ -1745,7 +1751,7 @@ window.CAFFINI_TOUR = {
          s6:'Le schéma montre la position des buses : les plus gros orifices en haut, là où la végétation est la plus dense, les plus petits en bas vers le tronc.',
          s7:'Pour changer la position, faites glisser une buse sur une autre, ou touchez-en une puis l’autre : elles s’échangent des deux côtés.',
          s8:'Vous pouvez partir d’un préréglage, enregistrer vos configurations et créer le rapport PDF.',
-         s9:'Avec le porte-jet double, vous gérez deux séries : A (+) pour la dose la plus élevée et B (−) pour la plus faible.' }
+         s9:'Avec le porte-jet double, vous gérez deux séries : A (côté +) pour la dose la plus élevée et B (côté −), par défaut avec des buses ISO orange, pour la plus faible.' }
   },
   steps:[
     { text:'s1' },
