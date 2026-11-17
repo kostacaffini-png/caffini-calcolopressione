@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>CAFFINI - Calcolo pressione</title>
+<title>CAFFINI - Scelta ugelli atomizzatori</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
@@ -330,11 +330,11 @@
   .layout{display:flex;flex-direction:column;}
   .col{display:contents;}
   .gauge-wrap{order:1;} #secCfg{order:2;} #secDual{order:3;} .tabs{order:4;}
-  #secDati{order:5;} #secUgelli{order:6;} #footerNote{order:7;} #resetBtn{order:8;}
+  #secDati{order:5;} #secUgelli{order:6;} #secLayout{order:7;} #footerNote{order:8;} #resetBtn{order:9;}
   @media (min-width:1100px){
     .layout{display:grid;grid-template-columns:minmax(300px,380px) minmax(0,1fr) minmax(320px,400px);gap:0 24px;align-items:start;}
     .col{display:block;}
-    .gauge-wrap,#secCfg,#secDual,.tabs,#secDati,#secUgelli,#footerNote,#resetBtn{order:0;}
+    .gauge-wrap,#secCfg,#secDual,#secLayout,.tabs,#secDati,#secUgelli,#footerNote,#resetBtn{order:0;}
     .gauge-wrap{padding:14px 0 4px;}
     .tabs{padding:12px 0 0;}
     #resetBtn{margin:10px 0 0;width:100%;}
@@ -361,6 +361,33 @@
   #tabColorati .tab-swatches{max-height:24px;overflow:hidden;transition:max-height .4s ease,opacity .3s ease;}
   #tabColorati:not(.active) .tab-swatches{max-height:0;opacity:0;}
   @media (prefers-reduced-motion:reduce){.tab-btn,.tab-btn *{transition:none !important;animation:none !important;}}
+  /* ===== Disposizione ugelli (schema illustrativo, trascinabile) ===== */
+  #layoutHost svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none;}
+  #layoutHost .lnz{cursor:grab;touch-action:none;}
+  #layoutHost .lnz.drag{cursor:grabbing;}
+  #layoutHost .lnz.pick circle.body{stroke:var(--accent);stroke-width:3.5;}
+  .lay-legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:11.5px;color:var(--text-dim);margin-top:6px;}
+  .lay-legend span{display:inline-flex;align-items:center;gap:5px;}
+  .lay-legend i{width:12px;height:12px;border-radius:50%;display:inline-block;border:1px solid rgba(0,0,0,.35);}
+  .lay-legend i.ring{box-shadow:0 0 0 2px #444;}
+  .lay-ctl{display:flex;gap:10px;align-items:center;margin-top:8px;}
+  .lay-ctl{flex-wrap:wrap;}
+  .lay-ctl .toggle-row{flex:1 1 200px;font-size:12px;}
+  .lay-ctl .cfg-btn{min-height:36px;font-size:12px;padding:0 10px;}
+  @media (min-width:1100px){
+    /* desktop: dati trattamento su una riga e schema compatto, così tutto sta nello schermo */
+    #secDati .card{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;}
+    #secDati .field{margin:0;}
+    #secDati .field label{font-size:11.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    #secDati .field .input-row{gap:4px;}
+    #secDati .field input[type=number]{font-size:15px;padding:9px 8px;}
+    #secDati .field .u{min-width:0;font-size:11px;}
+    #secLayout .card{padding:10px 12px;}
+    #layoutHost svg{max-height:205px;}
+    #layoutHint{font-size:10.5px;line-height:1.35;}
+  }
+  #reportView .r-lay{max-width:420px;margin:12px auto 0;}
+  #reportView .r-lay svg{width:100%;height:auto;display:block;}
 </style>
 </head>
 <body>
@@ -384,7 +411,7 @@
 
 <div class="topbar">
   <div class="titlebox">
-    <h1 id="modeTitle">Calcolo Pressione</h1>
+    <h1 id="modeTitle">Scelta ugelli atomizzatori</h1>
   </div>
 </div>
 
@@ -435,6 +462,17 @@
         <span class="u">m</span>
       </div>
     </div>
+  </div>
+</div>
+
+<div class="section" id="secLayout">
+  <h2 id="lblLayoutTitle"></h2>
+  <div class="card">
+    <div id="layoutHost"></div>
+    <div class="lay-legend" id="layoutLegend"></div>
+    <div class="lay-ctl"><label class="toggle-row"><input type="checkbox" id="layoutSym" checked><span id="lblLayoutSym"></span></label>
+    <button type="button" class="cfg-btn" id="layoutReset"></button></div>
+    <div class="cfg-desc" id="layoutHint"></div>
   </div>
 </div>
 
@@ -562,7 +600,7 @@ const tabColorati = document.getElementById('tabColorati');
 
 const I18N = {
   it: {
-    modeTitle: 'Calcolo Pressione',
+    modeTitle: 'Scelta ugelli atomizzatori',
     tabRosa: 'PIASTRINE CERAMICA &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">UGELLI A NORMA ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -584,7 +622,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'convogl. cieco' : `convogl. ${conv}`,
   },
   en: {
-    modeTitle: 'Pressure Calculation',
+    modeTitle: 'Nozzle selection – Airblast sprayers',
     tabRosa: 'CERAMIC PLATES &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">ISO STANDARD NOZZLES</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -606,7 +644,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blind deflector' : `deflector ${conv}`,
   },
   es: {
-    modeTitle: 'Cálculo de Presión',
+    modeTitle: 'Selección de boquillas – Atomizadores',
     tabRosa: 'PLACAS DE CERÁMICA &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BOQUILLAS NORMA ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -628,7 +666,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'ciego' ? 'deflector ciego' : `deflector ${conv}`,
   },
   de: {
-    modeTitle: 'Druckberechnung',
+    modeTitle: 'Düsenauswahl – Sprühgeräte',
     tabRosa: 'KERAMIKPLÄTTCHEN &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">DÜSEN NACH ISO-NORM</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -650,7 +688,7 @@ const I18N = {
     convoglLabel: (conv) => conv === 'cieco' ? 'blindes Leitblech' : `Leitblech ${conv}`,
   },
   fr: {
-    modeTitle: 'Calcul de Pression',
+    modeTitle: 'Choix des buses – Atomiseurs',
     tabRosa: 'PASTILLES CÉRAMIQUE &#8960;18',
     tabColorati: `<span style="font-size: 16px; font-weight: bold; display: block;">BUSES NORME ISO</span>
                   <span style="font-size: 11px; display: block; opacity: 0.85;">Teejet: TXB-TXA-TVI | Lechler: TR-ITR-IDK | Albuz: ATI-CVI</span>`,
@@ -747,11 +785,11 @@ function applyLanguage(lang){
   if (modeTitle) modeTitle.textContent = t.modeTitle;
   
   // Titolo della scheda/pagina del browser
-  let titleText = 'CAFFINI - Calcolo pressione';
-  if (lang === 'en') titleText = 'CAFFINI - Pressure calculation';
-  else if (lang === 'es') titleText = 'CAFFINI - Cálculo de presión';
-  else if (lang === 'de') titleText = 'CAFFINI - Druckberechnung';
-  else if (lang === 'fr') titleText = 'CAFFINI - Calcul de pression';
+  let titleText = 'CAFFINI - Scelta ugelli atomizzatori';
+  if (lang === 'en') titleText = 'CAFFINI - Nozzle selection airblast sprayers';
+  else if (lang === 'es') titleText = 'CAFFINI - Selección de boquillas atomizadores';
+  else if (lang === 'de') titleText = 'CAFFINI - Düsenauswahl Sprühgeräte';
+  else if (lang === 'fr') titleText = 'CAFFINI - Choix des buses atomiseurs';
   document.title = titleText;
 
   const keepCounts = getGettiInputs().map(inp => parseFloat(inp.value) || 0);
@@ -872,8 +910,8 @@ const CFG_I18N = {
     exp:'Esporta', imp:'Importa', gVigneto:'Vigneto', gFrutteto:'Frutteto', gDual:'Doppio getto',
     presetNote:'Valori indicativi di partenza: verifica e adatta alla tua macchina, poi salva la tua configurazione.',
     dualTitle:'Portagetto doppio', dual:'Portagetto doppio: due serie di ugelli sulla stessa macchina',
-    dualHint:'Ogni serie ha i propri l/ha, velocità, larghezza filare e ugelli. Esempio: Serie A per il dosaggio inferiore, Serie B per il dosaggio maggiore. Si salvano insieme.',
-    serieA:'Serie A', serieB:'Serie B', editing:(s)=>`Stai modificando: ${s}`,
+    dualHint:'Ogni serie ha i propri l/ha, velocità, larghezza filare e ugelli: Serie A (+) per il dosaggio maggiore, Serie B (−) per il dosaggio minore. Si salvano insieme.',
+    serieA:'Serie A (+)', serieB:'Serie B (−)', editing:(s)=>`Stai modificando: ${s}`,
     nameRequired:'Inserisci un nome per la configurazione.', needNozzles:'Imposta almeno un ugello con n° getti maggiore di 0.',
     msgSaved:'Configurazione salvata.', overwrite:(n)=>`Esiste già una configurazione "${n}". Sovrascrivere?`,
     delConfirm:(n)=>`Eliminare "${n}"?`, msgDeleted:'Configurazione eliminata.',
@@ -888,8 +926,8 @@ const CFG_I18N = {
     exp:'Export', imp:'Import', gVigneto:'Vineyard', gFrutteto:'Orchard', gDual:'Double jet',
     presetNote:'Indicative starting values: check and adapt them to your machine, then save your own configuration.',
     dualTitle:'Double nozzle body', dual:'Double nozzle body: two nozzle sets on the same machine',
-    dualHint:'Each set has its own l/ha, speed, row width and nozzles. Example: Set A for the lower rate, Set B for the higher rate. They are saved together.',
-    serieA:'Set A', serieB:'Set B', editing:(s)=>`Editing: ${s}`,
+    dualHint:'Each set has its own l/ha, speed, row width and nozzles: Set A (+) for the higher rate, Set B (−) for the lower rate. They are saved together.',
+    serieA:'Set A (+)', serieB:'Set B (−)', editing:(s)=>`Editing: ${s}`,
     nameRequired:'Enter a name for the configuration.', needNozzles:'Set at least one nozzle with a number of jets greater than 0.',
     msgSaved:'Configuration saved.', overwrite:(n)=>`A configuration named "${n}" already exists. Overwrite?`,
     delConfirm:(n)=>`Delete "${n}"?`, msgDeleted:'Configuration deleted.',
@@ -904,8 +942,8 @@ const CFG_I18N = {
     exp:'Exportar', imp:'Importar', gVigneto:'Viñedo', gFrutteto:'Frutal', gDual:'Doble chorro',
     presetNote:'Valores orientativos de partida: compruébalos y adáptalos a tu máquina, luego guarda tu configuración.',
     dualTitle:'Portaboquillas doble', dual:'Portaboquillas doble: dos series de boquillas en la misma máquina',
-    dualHint:'Cada serie tiene sus propios l/ha, velocidad, ancho de fila y boquillas. Ejemplo: Serie A para la dosis inferior, Serie B para la dosis mayor. Se guardan juntas.',
-    serieA:'Serie A', serieB:'Serie B', editing:(s)=>`Estás editando: ${s}`,
+    dualHint:'Cada serie tiene sus propios l/ha, velocidad, anchura de calle y boquillas: Serie A (+) para la dosis mayor, Serie B (−) para la dosis menor. Se guardan juntas.',
+    serieA:'Serie A (+)', serieB:'Serie B (−)', editing:(s)=>`Estás editando: ${s}`,
     nameRequired:'Introduce un nombre para la configuración.', needNozzles:'Configura al menos una boquilla con n.º de chorros mayor que 0.',
     msgSaved:'Configuración guardada.', overwrite:(n)=>`Ya existe una configuración "${n}". ¿Sobrescribir?`,
     delConfirm:(n)=>`¿Eliminar "${n}"?`, msgDeleted:'Configuración eliminada.',
@@ -920,8 +958,8 @@ const CFG_I18N = {
     exp:'Exportieren', imp:'Importieren', gVigneto:'Weinberg', gFrutteto:'Obstanlage', gDual:'Doppeldüse',
     presetNote:'Richtwerte zum Starten: bitte prüfen und an die Maschine anpassen, dann die eigene Konfiguration speichern.',
     dualTitle:'Doppel-Düsenhalter', dual:'Doppel-Düsenhalter: zwei Düsensätze an derselben Maschine',
-    dualHint:'Jeder Satz hat eigene l/ha, Geschwindigkeit, Reihenbreite und Düsen. Beispiel: Satz A für die niedrigere, Satz B für die höhere Aufwandmenge. Sie werden zusammen gespeichert.',
-    serieA:'Satz A', serieB:'Satz B', editing:(s)=>`Bearbeitet wird: ${s}`,
+    dualHint:'Jeder Satz hat eigene l/ha, Geschwindigkeit, Reihenbreite und Düsen: Satz A (+) für die höhere, Satz B (−) für die niedrigere Aufwandmenge. Sie werden zusammen gespeichert.',
+    serieA:'Satz A (+)', serieB:'Satz B (−)', editing:(s)=>`Bearbeitet wird: ${s}`,
     nameRequired:'Bitte einen Namen für die Konfiguration eingeben.', needNozzles:'Mindestens eine Düse mit Anzahl größer als 0 einstellen.',
     msgSaved:'Konfiguration gespeichert.', overwrite:(n)=>`Die Konfiguration "${n}" existiert bereits. Überschreiben?`,
     delConfirm:(n)=>`"${n}" löschen?`, msgDeleted:'Konfiguration gelöscht.',
@@ -936,8 +974,8 @@ const CFG_I18N = {
     exp:'Exporter', imp:'Importer', gVigneto:'Vigne', gFrutteto:'Verger', gDual:'Double jet',
     presetNote:'Valeurs indicatives de départ : vérifiez-les et adaptez-les à votre machine, puis enregistrez votre configuration.',
     dualTitle:'Porte-buse double', dual:'Porte-buse double : deux séries de buses sur la même machine',
-    dualHint:'Chaque série a ses propres l/ha, vitesse, largeur de rang et buses. Exemple : Série A pour le dosage inférieur, Série B pour le dosage supérieur. Elles sont enregistrées ensemble.',
-    serieA:'Série A', serieB:'Série B', editing:(s)=>`Modification en cours : ${s}`,
+    dualHint:'Chaque série a ses propres l/ha, vitesse, largeur d’inter-rang et buses : Série A (+) pour la dose la plus élevée, Série B (−) pour la dose la plus faible. Elles sont enregistrées ensemble.',
+    serieA:'Série A (+)', serieB:'Série B (−)', editing:(s)=>`Modification en cours : ${s}`,
     nameRequired:'Saisissez un nom pour la configuration.', needNozzles:'Réglez au moins une buse avec un nombre de jets supérieur à 0.',
     msgSaved:'Configuration enregistrée.', overwrite:(n)=>`La configuration "${n}" existe déjà. Écraser ?`,
     delConfirm:(n)=>`Supprimer "${n}" ?`, msgDeleted:'Configuration supprimée.',
@@ -960,7 +998,7 @@ const PRESETS = [
   { id:'vigneto-ceramica', group:'vigneto',
     name:{it:'Vigneto – piastrine ceramica', en:'Vineyard – ceramic plates', es:'Viñedo – placas de cerámica', de:'Weinberg – Keramikplättchen', fr:'Vigne – pastilles céramique'},
     dual:false,
-    series:[{mode:'rosa', lha:300, vel:6, fil:2.5, counts:[8,0,0,0,0,0,0,0]}] },
+    series:[{mode:'rosa', lha:200, vel:8, fil:2.5, counts:[0,8,0,0,0,0,0,0]}] },
   { id:'vigneto-iso', group:'vigneto',
     name:{it:'Vigneto – ugelli ISO', en:'Vineyard – ISO nozzles', es:'Viñedo – boquillas ISO', de:'Weinberg – ISO-Düsen', fr:'Vigne – buses ISO'},
     dual:false,
@@ -968,20 +1006,20 @@ const PRESETS = [
   { id:'frutteto-ceramica', group:'frutteto',
     name:{it:'Frutteto – piastrine ceramica', en:'Orchard – ceramic plates', es:'Frutal – placas de cerámica', de:'Obstanlage – Keramikplättchen', fr:'Verger – pastilles céramique'},
     dual:false,
-    series:[{mode:'rosa', lha:500, vel:6, fil:4, counts:[0,0,4,0,0,0,2,0]}] },
+    series:[{mode:'rosa', lha:1000, vel:6, fil:4, counts:[0,0,2,0,6,0,4,0]}] },
   { id:'vigneto-doppio-ceramica', group:'dual',
     name:{it:'Vigneto doppio getto – ceramica (A/B)', en:'Vineyard double jet – ceramic (A/B)', es:'Viñedo doble chorro – cerámica (A/B)', de:'Weinberg Doppeldüse – Keramik (A/B)', fr:'Vigne double jet – céramique (A/B)'},
     dual:true,
     series:[
-      {mode:'rosa', lha:200, vel:6, fil:2.5, counts:[6,0,0,0,0,0,0,0]},
-      {mode:'rosa', lha:400, vel:6, fil:2.5, counts:[0,0,6,0,0,0,0,0]}
+      {mode:'rosa', lha:200, vel:8, fil:2.5, counts:[0,8,0,0,0,0,0,0]},
+      {mode:'rosa', lha:160, vel:8, fil:2.5, counts:[8,0,0,0,0,0,0,0]}
     ] },
   { id:'vigneto-doppio-iso', group:'dual',
     name:{it:'Vigneto doppio getto – ugelli ISO (A/B)', en:'Vineyard double jet – ISO nozzles (A/B)', es:'Viñedo doble chorro – boquillas ISO (A/B)', de:'Weinberg Doppeldüse – ISO-Düsen (A/B)', fr:'Vigne double jet – buses ISO (A/B)'},
     dual:true,
     series:[
-      {mode:'colorati', lha:150, vel:6, fil:2.5, counts:[0,0,6,0,0,0,0]},
-      {mode:'colorati', lha:300, vel:6, fil:2.5, counts:[0,0,0,0,6,0,0]}
+      {mode:'colorati', lha:300, vel:6, fil:2.5, counts:[0,0,0,0,6,0,0]},
+      {mode:'colorati', lha:150, vel:6, fil:2.5, counts:[0,0,6,0,0,0,0]}
     ] }
 ];
 
@@ -1007,7 +1045,7 @@ function blankSeries(mode){
   mode = mode || 'colorati';
   return { mode, lha:0, vel:0, fil:0, counts: DATASETS[mode].nozzles.map(() => 0) };
 }
-function cloneSeries(s){ return { mode:s.mode, lha:s.lha, vel:s.vel, fil:s.fil, counts:s.counts.slice() }; }
+function cloneSeries(s){ return { mode:s.mode, lha:s.lha, vel:s.vel, fil:s.fil, counts:s.counts.slice(), layout: s.layout ? { L:s.layout.L.slice(), R:s.layout.R.slice() } : null }; }
 function seriesIsBlank(s){ return !s.lha && !s.vel && !s.fil && s.counts.every(c => !c); }
 
 const cfgState = { dual:false, active:0, series:[blankSeries(), blankSeries()] };
@@ -1025,9 +1063,10 @@ const serieBadge   = document.getElementById('serieBadge');
 // Legge lo stato attuale dei campi (serie attiva) e lo memorizza.
 function syncSeriesFromUI(){
   const num = el => Math.max(0, parseFloat(el.value) || 0);
+  const prev = cfgState.series[cfgState.active];
   cfgState.series[cfgState.active] = {
     mode: currentMode, lha: num(lhaEl), vel: num(velEl), fil: num(filEl),
-    counts: getGettiInputs().map(num)
+    counts: getGettiInputs().map(num), layout: prev && prev.mode === currentMode ? prev.layout || null : null
   };
 }
 
@@ -1058,6 +1097,7 @@ function selectSeries(i){
 
 // Riepilogo delle due serie (chiamato a ogni ricalcolo).
 function renderDualSummary(){
+  renderLayout();
   dualBody.hidden = !cfgState.dual;
   serieBadge.hidden = !cfgState.dual;
   if (!cfgState.dual) return;
@@ -1103,8 +1143,10 @@ function sanitizeSeries(s){
   if (!s || typeof s !== 'object' || !DATASETS[s.mode]) return null;
   const num = v => { v = parseFloat(v); return isFinite(v) && v > 0 ? v : 0; };
   const n = DATASETS[s.mode].nozzles.length;
+  const okSide = a => Array.isArray(a) && a.length <= 60 && a.every(x => Number.isInteger(x) && x >= 0 && x < n);
+  const layout = s.layout && okSide(s.layout.L) && okSide(s.layout.R) ? { L:s.layout.L.slice(), R:s.layout.R.slice() } : null;
   return { mode:s.mode, lha:num(s.lha), vel:num(s.vel), fil:num(s.fil),
-           counts: Array.from({length:n}, (_, i) => num(Array.isArray(s.counts) ? s.counts[i] : 0)) };
+           counts: Array.from({length:n}, (_, i) => num(Array.isArray(s.counts) ? s.counts[i] : 0)), layout };
 }
 function sanitizeConfig(o){
   if (!o || typeof o !== 'object' || typeof o.name !== 'string' || !o.name.trim() || !Array.isArray(o.series)) return null;
@@ -1412,6 +1454,7 @@ function reportSeriesHTML(i){
       <tfoot><tr><td colspan="${emptyCols}">${esc(ct('rTotal'))}</td><td class="num">${r.totGetti}</td><td></td><td class="num">${r.sumDG.toFixed(2)}</td></tr></tfoot>
     </table>
     ${press}
+    ${s.counts.some(c => c > 0) ? `<div class="r-sub" style="margin-top:12px">${esc(lt('rLay'))}</div><div class="r-lay">${layoutSVG(s, { print:true })}</div>` : ''}
   </div>`;
 }
 
@@ -1465,10 +1508,515 @@ function openReport(){
 }
 document.getElementById('cfgReport').addEventListener('click', openReport);
 
+// =====================================================================
+// DISPOSIZIONE UGELLI — schema illustrativo (vista posteriore dell'atomizzatore)
+// Default: ugelli più piccoli in alto (chioma), più grandi in basso (tronco).
+// Si possono spostare trascinandoli, oppure toccandone uno e poi un altro.
+// =====================================================================
+const LAY_I18N = {
+  it:{ title:'Disposizione ugelli (illustrativa)', hi:'ALTA', mid:'MEDIA', lo:'BASSA', sym:'Sposta in modo simmetrico su entrambi i lati',
+       hint:'Di default i più piccoli sono in alto (chioma) e i più grandi in basso (tronco). Trascina un ugello su un altro per scambiarli, oppure toccane uno e poi l’altro. Schema solo indicativo.',
+       odd:'Numero di ugelli dispari: un lato ha un ugello in più.', reset:'Ripristina disposizione consigliata', ring:'anello = con convogliatore', empty:'Imposta il numero di getti per vedere la disposizione.',
+       sx:'SX', dx:'DX', rLay:'Disposizione ugelli (vista posteriore)' },
+  en:{ title:'Nozzle layout (illustrative)', hi:'HIGH', mid:'MIDDLE', lo:'LOW', sym:'Move symmetrically on both sides',
+       hint:'By default the smallest nozzles are at the top (canopy) and the largest at the bottom (trunk). Drag a nozzle onto another to swap them, or tap one and then the other. Indicative diagram only.',
+       odd:'Odd number of nozzles: one side has one more.', reset:'Restore recommended layout', ring:'ring = with deflector', empty:'Set the number of jets to see the layout.',
+       sx:'L', dx:'R', rLay:'Nozzle layout (rear view)' },
+  es:{ title:'Disposición de boquillas (ilustrativa)', hi:'ALTA', mid:'MEDIA', lo:'BAJA', sym:'Mover de forma simétrica en ambos lados',
+       hint:'Por defecto las más pequeñas van arriba (copa) y las más grandes abajo (tronco). Arrastra una boquilla sobre otra para intercambiarlas, o toca una y luego la otra. Esquema solo orientativo.',
+       odd:'Número de boquillas impar: un lado tiene una más.', reset:'Restablecer disposición recomendada', ring:'anillo = con deflector', empty:'Indica el número de chorros para ver la disposición.',
+       sx:'IZ', dx:'DE', rLay:'Disposición de boquillas (vista trasera)' },
+  de:{ title:'Düsenanordnung (schematisch)', hi:'OBEN', mid:'MITTE', lo:'UNTEN', sym:'Auf beiden Seiten symmetrisch verschieben',
+       hint:'Standardmäßig sind die kleinsten Düsen oben (Laubwand) und die größten unten (Stamm). Eine Düse auf eine andere ziehen, um sie zu tauschen, oder erst eine, dann die andere antippen. Nur schematisch.',
+       odd:'Ungerade Düsenzahl: eine Seite hat eine Düse mehr.', reset:'Empfohlene Anordnung wiederherstellen', ring:'Ring = mit Leitblech', empty:'Anzahl der Düsen eingeben, um die Anordnung zu sehen.',
+       sx:'L', dx:'R', rLay:'Düsenanordnung (Ansicht von hinten)' },
+  fr:{ title:'Disposition des buses (illustrative)', hi:'HAUT', mid:'MILIEU', lo:'BAS', sym:'Déplacer de façon symétrique des deux côtés',
+       hint:'Par défaut, les plus petites buses sont en haut (frondaison) et les plus grosses en bas (tronc). Faites glisser une buse sur une autre pour les échanger, ou touchez-en une puis l’autre. Schéma indicatif.',
+       odd:'Nombre de buses impair : un côté a une buse de plus.', reset:'Rétablir la disposition conseillée', ring:'anneau = avec déflecteur', empty:'Indiquez le nombre de jets pour voir la disposition.',
+       sx:'G', dx:'D', rLay:'Disposition des buses (vue arrière)' }
+};
+function lt(k){ const l = LAY_I18N[currentLang] || LAY_I18N.it; return l[k]; }
+const ROSA_SHADE = { '1.0':'#f9c6dd', '1.2':'#f472b6', '1.5':'#db2777', '1.8':'#9d174d', '2.0':'#5b0a2e' };
+function nozColor(mode, n){ return mode === 'rosa' ? (ROSA_SHADE[n.ugello] || '#f472b6') : (n.color || '#888'); }
+function nozShort(mode, n){ return mode === 'rosa' ? n.ugello : n.ugello.replace(/^80/, ''); }
+function nozLabel(mode, n){
+  const t = I18N[currentLang];
+  if (mode !== 'rosa') return `${t.ugello} ${n.ugello}`;
+  return n.conv === 'cieco' ? `Ø${n.ugello} ${t.cieco}` : `Ø${n.ugello} + ${t.convogl} ${n.conv}`;
+}
+function defaultLayout(s){
+  const cfg = DATASETS[s.mode], all = [];
+  cfg.nozzles.map((n, i) => i).sort((a, b) => cfg.nozzles[a].lmin - cfg.nozzles[b].lmin)
+    .forEach(i => { for (let k = 0; k < Math.round(s.counts[i] || 0); k++) all.push(i); });
+  const L = [], R = [];
+  all.forEach((x, k) => (k % 2 ? R : L).push(x));
+  return { L, R };
+}
+function layoutValid(s, lay){
+  if (!lay) return false;
+  const cnt = DATASETS[s.mode].nozzles.map(() => 0);
+  for (const x of lay.L.concat(lay.R)) { if (cnt[x] === undefined) return false; cnt[x]++; }
+  return cnt.every((c, i) => c === Math.round(s.counts[i] || 0));
+}
+function layoutOf(s){ return layoutValid(s, s.layout) ? s.layout : defaultLayout(s); }
+
+const LAY = { W:360, H:250, cx:180, cy:150, R:64, plantL:70, plantR:290, yTop:42, yBot:228 };
+function slotPos(side, k, n){
+  const th = (12 + 156 * (k + 0.5) / n) * Math.PI / 180, sx = side === 'L' ? -1 : 1;
+  return { x: LAY.cx + sx * LAY.R * Math.sin(th), y: LAY.cy - LAY.R * Math.cos(th),
+           ty: LAY.yTop + (LAY.yBot - LAY.yTop) * (k + 0.5) / n };
+}
+function layoutSVG(s, opts){
+  opts = opts || {};
+  const cfg = DATASETS[s.mode], lay = layoutOf(s);
+  const light = !!opts.print, dim = light ? '#666' : 'var(--text-dim)', line = light ? '#ccc' : 'var(--line)';
+  const bands = [[LAY.yTop - 8, 92, lt('hi')], [92, 160, lt('mid')], [160, LAY.yBot + 8, lt('lo')]];
+  let h = `<svg viewBox="0 0 ${LAY.W} ${LAY.H}" xmlns="http://www.w3.org/2000/svg" font-family="Inter,sans-serif">`;
+  bands.forEach(([a, b, lbl], i) => {
+    h += `<rect x="0" y="${a}" width="${LAY.W}" height="${b - a}" fill="${i % 2 ? (light ? '#f3f4f6' : 'rgba(127,127,127,.07)') : 'none'}"/>`;
+    h += `<text x="4" y="${a + 11}" font-size="8.5" font-weight="700" fill="${dim}" letter-spacing=".06em">${esc(lbl)}</text>`;
+  });
+  // piante (vite / albero): tronco in basso, chioma in alto
+  [LAY.plantL, LAY.plantR].forEach(px => {
+    h += `<rect x="${px - 4}" y="150" width="8" height="${LAY.yBot - 142}" rx="3" fill="#8b5a2b"/>`;
+    h += `<ellipse cx="${px}" cy="100" rx="22" ry="62" fill="#3f9b4f" opacity=".85"/>`;
+    h += `<ellipse cx="${px - 8}" cy="80" rx="13" ry="22" fill="#5cb85c" opacity=".7"/>`;
+  });
+  h += `<line x1="0" y1="${LAY.yBot + 8}" x2="${LAY.W}" y2="${LAY.yBot + 8}" stroke="${dim}" stroke-width="1"/>`;
+  // getti
+  ['L', 'R'].forEach(side => {
+    const arr = lay[side], tx = side === 'L' ? LAY.plantL + 18 : LAY.plantR - 18;
+    arr.forEach((ni, k) => {
+      const p = slotPos(side, k, arr.length), c = nozColor(s.mode, cfg.nozzles[ni]);
+      h += `<polygon points="${p.x},${p.y} ${tx},${p.ty - 9} ${tx},${p.ty + 9}" fill="${c}" opacity=".28"/>`;
+    });
+  });
+  // atomizzatore: ventola vista da dietro
+  h += `<circle cx="${LAY.cx}" cy="${LAY.cy}" r="${LAY.R + 14}" fill="none" stroke="${line}" stroke-width="10"/>`;
+  h += `<circle cx="${LAY.cx}" cy="${LAY.cy}" r="40" fill="${light ? '#e5e7eb' : 'var(--panel-2)'}" stroke="${dim}" stroke-width="1.5"/>`;
+  for (let a = 0; a < 6; a++) {
+    const r = a * Math.PI / 3;
+    h += `<line x1="${LAY.cx}" y1="${LAY.cy}" x2="${LAY.cx + 36 * Math.cos(r)}" y2="${LAY.cy + 36 * Math.sin(r)}" stroke="${dim}" stroke-width="1"/>`;
+  }
+  h += `<circle cx="${LAY.cx}" cy="${LAY.cy}" r="5" fill="${dim}"/>`;
+  h += `<text x="${LAY.cx - LAY.R - 22}" y="${LAY.cy + LAY.R + 16}" font-size="10" font-weight="700" fill="${dim}" text-anchor="middle">${esc(lt('sx'))}</text>`;
+  h += `<text x="${LAY.cx + LAY.R + 22}" y="${LAY.cy + LAY.R + 16}" font-size="10" font-weight="700" fill="${dim}" text-anchor="middle">${esc(lt('dx'))}</text>`;
+  // ugelli
+  ['L', 'R'].forEach(side => {
+    const arr = lay[side], n = arr.length;
+    const r = Math.max(6, Math.min(11.5, 165 / Math.max(1, n) * 0.42));
+    arr.forEach((ni, k) => {
+      const p = slotPos(side, k, n), nz = cfg.nozzles[ni], c = nozColor(s.mode, nz);
+      const dark = /^#(f9|f4|f2|fb|fff|ff)/i.test(c) || c === '#f2c94c';
+      const ring = s.mode === 'rosa' && nz.conv !== 'cieco' ? `<circle cx="${p.x}" cy="${p.y}" r="${r + 2.6}" fill="none" stroke="#333" stroke-width="2.2"/>` : '';
+      h += `<g class="lnz" data-side="${side}" data-k="${k}">${ring}<circle class="body" cx="${p.x}" cy="${p.y}" r="${r}" fill="${c}" stroke="rgba(0,0,0,.45)" stroke-width="1"/>` +
+           `<text x="${p.x}" y="${p.y + r * 0.32}" font-size="${(r * 0.78).toFixed(1)}" font-weight="700" text-anchor="middle" fill="${dark ? '#222' : '#fff'}" pointer-events="none">${esc(nozShort(s.mode, nz))}</text></g>`;
+    });
+  });
+  return h + '</svg>';
+}
+
+let layPick = null;   // ugello selezionato con un tocco: {side,k}
+function curSeries(){ return cfgState.series[cfgState.active]; }
+var LAYOUT_READY;   // diventa true quando questo blocco è caricato
+function renderLayout(){
+  if (!LAYOUT_READY) return;
+  const host = document.getElementById('layoutHost'); if (!host) return;
+  document.getElementById('lblLayoutTitle').textContent = lt('title');
+  document.getElementById('lblLayoutSym').textContent = lt('sym');
+  document.getElementById('layoutReset').textContent = lt('reset');
+  const s = curSeries(), cfg = DATASETS[s.mode];
+  const tot = s.counts.reduce((a, c) => a + Math.round(c || 0), 0);
+  if (!tot) { host.innerHTML = `<div class="hint" style="font-size:12px;color:var(--text-dim)">${esc(lt('empty'))}</div>`; document.getElementById('layoutLegend').innerHTML = ''; document.getElementById('layoutHint').textContent = ''; return; }
+  host.innerHTML = layoutSVG(s);
+  if (layPick) { const g = host.querySelector(`.lnz[data-side="${layPick.side}"][data-k="${layPick.k}"]`); if (g) g.classList.add('pick'); else layPick = null; }
+  const used = cfg.nozzles.map((n, i) => i).filter(i => s.counts[i] > 0).sort((a, b) => cfg.nozzles[a].lmin - cfg.nozzles[b].lmin);
+  document.getElementById('layoutLegend').innerHTML = used.map(i => {
+    const n = cfg.nozzles[i], ring = s.mode === 'rosa' && n.conv !== 'cieco';
+    return `<span><i class="${ring ? 'ring' : ''}" style="background:${nozColor(s.mode, n)}"></i>${Math.round(s.counts[i])}× ${esc(nozLabel(s.mode, n))}</span>`;
+  }).join('') + (s.mode === 'rosa' ? `<span>◯ ${esc(lt('ring'))}</span>` : '');
+  document.getElementById('layoutHint').textContent = lt('hint') + (tot % 2 ? ' ' + lt('odd') : '');
+}
+function layoutSwap(a, b){
+  const s = curSeries(), lay = layoutOf(s);
+  const nl = { L:lay.L.slice(), R:lay.R.slice() };
+  const sw = (sa, ka, sb, kb) => { if (nl[sa][ka] === undefined || nl[sb][kb] === undefined) return; const t = nl[sa][ka]; nl[sa][ka] = nl[sb][kb]; nl[sb][kb] = t; };
+  sw(a.side, a.k, b.side, b.k);
+  if (document.getElementById('layoutSym').checked && a.side === b.side) {
+    const o = a.side === 'L' ? 'R' : 'L';
+    if (nl[o].length === nl[a.side].length) sw(o, a.k, o, b.k);
+  }
+  s.layout = nl; layPick = null; renderLayout();
+}
+window.CAFFINI_LAYOUT_SWAP = layoutSwap;
+(function(){
+  const host = document.getElementById('layoutHost');
+  let drag = null;
+  const toSvg = (svg, e) => { const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(svg.getScreenCTM().inverse()); };
+  host.addEventListener('pointerdown', e => {
+    const g = e.target.closest('.lnz'); if (!g) return;
+    const svg = host.querySelector('svg'); const p = toSvg(svg, e);
+    drag = { g, svg, side:g.dataset.side, k:+g.dataset.k, x0:p.x, y0:p.y, moved:false, id:e.pointerId };
+    g.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  host.addEventListener('pointermove', e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const p = toSvg(drag.svg, e), dx = p.x - drag.x0, dy = p.y - drag.y0;
+    if (!drag.moved && Math.hypot(dx, dy) < 4) return;
+    drag.moved = true; drag.g.classList.add('drag');
+    drag.g.setAttribute('transform', `translate(${dx},${dy})`); drag.svg.appendChild(drag.g);
+  });
+  const end = e => {
+    if (!drag || e.pointerId !== drag.id) return;
+    const d = drag; drag = null;
+    if (!d.moved) {   // tocco: seleziona, poi scambia con il secondo toccato
+      const me = { side:d.side, k:d.k };
+      if (layPick && !(layPick.side === me.side && layPick.k === me.k)) layoutSwap(layPick, me);
+      else { layPick = layPick ? null : me; renderLayout(); }
+      return;
+    }
+    const p = toSvg(d.svg, e), s = curSeries(), lay = layoutOf(s);
+    let best = null;
+    ['L', 'R'].forEach(side => lay[side].forEach((_, k) => {
+      const q = slotPos(side, k, lay[side].length), dist = Math.hypot(q.x - p.x, q.y - p.y);
+      if (dist < 26 && (!best || dist < best.dist)) best = { side, k, dist };
+    }));
+    if (best && !(best.side === d.side && best.k === d.k)) layoutSwap({ side:d.side, k:d.k }, best); else renderLayout();
+  };
+  host.addEventListener('pointerup', end);
+  host.addEventListener('pointercancel', end);
+  document.getElementById('layoutReset').addEventListener('click', () => { curSeries().layout = null; layPick = null; renderLayout(); });
+  document.getElementById('layoutSym').addEventListener('change', () => { layPick = null; });
+})();
+LAYOUT_READY = true;
+
 
 renderCfgUI();
 
 recalc();
 </script>
+
+<script>
+// ===== Tutorial: copione di questa pagina (testi nelle 5 lingue + azioni dimostrative) =====
+window.CAFFINI_TOUR = {
+  id:'atomizzatori',
+  texts:{
+    it:{ s1:'Questo strumento aiuta a scegliere gli ugelli dell’atomizzatore e calcola la pressione di lavoro da dose, velocità, filare e ugelli montati.',
+         s2:'Scegli il tipo di ugello che usi: piastrine in ceramica oppure ugelli colorati a norma ISO.',
+         s3:'Inserisci la dose di prodotto, la velocità di avanzamento e la larghezza del filare.',
+         s4:'Indica quanti getti sono aperti per ogni tipo di ugello.',
+         s5:'Il manometro mostra subito la pressione da impostare, i litri al minuto totali e i getti attivi.',
+         s6:'Lo schema mostra dove vanno gli ugelli: i più piccoli in alto sulla chioma, i più grandi in basso verso il tronco.',
+         s7:'Per cambiare posizione trascina un ugello su un altro, oppure toccane uno e poi l’altro: si scambiano su entrambi i lati.',
+         s8:'Puoi partire da un preset, salvare le tue configurazioni e creare il report PDF.',
+         s9:'Con il portagetto doppio gestisci due serie di ugelli: A (+) per il dosaggio maggiore e B (−) per quello minore.' },
+    en:{ s1:'This tool helps you choose the airblast sprayer nozzles and calculates the working pressure from rate, speed, row width and fitted nozzles.',
+         s2:'Choose the nozzle type you use: ceramic plates or ISO colour-coded nozzles.',
+         s3:'Enter the product rate, the forward speed and the row width.',
+         s4:'Enter how many jets are open for each nozzle type.',
+         s5:'The gauge immediately shows the pressure to set, the total litres per minute and the active jets.',
+         s6:'The diagram shows where the nozzles go: the smallest at the top on the canopy, the largest at the bottom towards the trunk.',
+         s7:'To change a position drag one nozzle onto another, or tap one and then the other: they swap on both sides.',
+         s8:'You can start from a preset, save your own configurations and create the PDF report.',
+         s9:'With the double nozzle body you manage two nozzle sets: A (+) for the higher rate and B (−) for the lower one.' },
+    es:{ s1:'Esta herramienta ayuda a elegir las boquillas del atomizador y calcula la presión de trabajo a partir de dosis, velocidad, calle y boquillas montadas.',
+         s2:'Elige el tipo de boquilla que usas: placas de cerámica o boquillas de colores según norma ISO.',
+         s3:'Introduce la dosis de producto, la velocidad de avance y la anchura de la calle.',
+         s4:'Indica cuántos chorros están abiertos para cada tipo de boquilla.',
+         s5:'El manómetro muestra al instante la presión a ajustar, los litros por minuto totales y los chorros activos.',
+         s6:'El esquema muestra dónde van las boquillas: las más pequeñas arriba en la copa, las más grandes abajo hacia el tronco.',
+         s7:'Para cambiar la posición arrastra una boquilla sobre otra, o toca una y luego la otra: se intercambian en ambos lados.',
+         s8:'Puedes partir de un preset, guardar tus configuraciones y crear el informe PDF.',
+         s9:'Con el portaboquillas doble gestionas dos series: A (+) para la dosis mayor y B (−) para la menor.' },
+    de:{ s1:'Dieses Tool hilft bei der Düsenauswahl für Sprühgeräte und berechnet den Arbeitsdruck aus Aufwandmenge, Geschwindigkeit, Reihenbreite und Düsen.',
+         s2:'Wählen Sie den verwendeten Düsentyp: Keramikplättchen oder farbcodierte ISO-Düsen.',
+         s3:'Geben Sie Aufwandmenge, Fahrgeschwindigkeit und Reihenbreite ein.',
+         s4:'Geben Sie an, wie viele Düsen je Düsentyp geöffnet sind.',
+         s5:'Das Manometer zeigt sofort den einzustellenden Druck, die Gesamtliter pro Minute und die aktiven Düsen.',
+         s6:'Das Schema zeigt die Anordnung: die kleinsten Düsen oben an der Laubwand, die größten unten zum Stamm.',
+         s7:'Zum Umstellen eine Düse auf eine andere ziehen oder erst eine, dann die andere antippen: sie tauschen auf beiden Seiten.',
+         s8:'Sie können mit einer Voreinstellung starten, eigene Konfigurationen speichern und den PDF-Bericht erstellen.',
+         s9:'Mit dem Doppeldüsenhalter verwalten Sie zwei Sätze: A (+) für die höhere und B (−) für die niedrigere Aufwandmenge.' },
+    fr:{ s1:'Cet outil aide à choisir les buses de l’atomiseur et calcule la pression de travail à partir de la dose, de la vitesse, de l’inter-rang et des buses.',
+         s2:'Choisissez le type de buse utilisé : pastilles céramique ou buses de couleur à la norme ISO.',
+         s3:'Saisissez la dose de produit, la vitesse d’avancement et la largeur de l’inter-rang.',
+         s4:'Indiquez combien de jets sont ouverts pour chaque type de buse.',
+         s5:'Le manomètre affiche aussitôt la pression à régler, les litres par minute au total et les jets actifs.',
+         s6:'Le schéma montre la position des buses : les plus petites en haut sur la frondaison, les plus grosses en bas vers le tronc.',
+         s7:'Pour changer la position, faites glisser une buse sur une autre, ou touchez-en une puis l’autre : elles s’échangent des deux côtés.',
+         s8:'Vous pouvez partir d’un préréglage, enregistrer vos configurations et créer le rapport PDF.',
+         s9:'Avec le porte-jet double, vous gérez deux séries : A (+) pour la dose la plus élevée et B (−) pour la plus faible.' }
+  },
+  steps:[
+    { text:'s1' },
+    { text:'s2', el:'.tabs', run: async a => { await a.click('#tabRosa'); } },
+    { text:'s3', el:'#secDati .card', run: async a => { await a.type('#lha', 1000); await a.type('#velocita', 6); await a.type('#filari', 4); } },
+    { text:'s4', el:'#secUgelli .card', run: async a => { await a.type('#getti-2', 2); await a.type('#getti-4', 6); await a.type('#getti-6', 4); } },
+    { text:'s5', el:'.gauge-wrap' },
+    { text:'s6', el:'#secLayout .card' },
+    { text:'s7', el:'#secLayout .card', run: async a => {
+        await a.point('#layoutHost .lnz[data-side="L"][data-k="0"]'); await a.wait(300);
+        await a.point('#layoutHost .lnz[data-side="L"][data-k="3"]');
+        window.CAFFINI_LAYOUT_SWAP({ side:'L', k:0 }, { side:'L', k:3 }); await a.wait(2200);
+        await a.click('#layoutReset'); } },
+    { text:'s8', el:'#secCfg .card' },
+    { text:'s9', el:'#secDual .card' }
+  ],
+  snapshot(){ syncSeriesFromUI();
+    return { c:JSON.stringify(cfgState), name:cfgName.value, p:presetSelect.value, s:savedSelect.value }; },
+  prepare(){ applyConfig({ dual:false, series:[blankSeries('colorati')] }); presetSelect.value = ''; savedSelect.value = ''; cfgName.value = ''; showDescForSelection(); },
+  restore(o){ if (!o) return; const c = JSON.parse(o.c);
+    applyConfig({ dual:c.dual, series:c.series });
+    if (c.dual && c.active === 1) selectSeries(1);
+    cfgName.value = o.name; presetSelect.value = o.p; savedSelect.value = o.s; showDescForSelection(); }
+};
+</script>
+<!-- ===== TUTORIAL ANIMATO (stile video) — motore comune a tutti i tool CAFFINI ===== -->
+<style>
+  .tut-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 11px 6px 7px;border-radius:999px;border:1px solid var(--accent,#00952b);
+    background:var(--panel,#1e2126);color:var(--text,#eef0f2);font:700 11px 'Inter',sans-serif;letter-spacing:.02em;cursor:pointer;white-space:nowrap;}
+  .tut-btn i{width:18px;height:18px;border-radius:50%;background:var(--accent,#00952b);color:#fff;font-style:normal;font-size:8px;
+    display:inline-flex;align-items:center;justify-content:center;padding-left:1px;}
+  .tut-btn:active{opacity:.8;}
+  @media (max-width:359px){.tut-btn span{display:none;}.tut-btn{padding:6px 7px;}}
+  @media (min-width:1100px){.app-head .tut-btn{grid-column:3;grid-row:1;justify-self:end;margin-right:44px;}}
+  #tutRoot[hidden]{display:none;}
+  .tut-block{position:fixed;inset:0;z-index:2990;background:transparent;}
+  .tut-spot{position:fixed;z-index:2991;border-radius:12px;pointer-events:none;
+    box-shadow:0 0 0 3px var(--accent,#00952b),0 0 0 200vmax rgba(8,10,12,.66);}
+  .tut-spot.none{box-shadow:0 0 0 200vmax rgba(8,10,12,.66);}
+  .tut-cur{position:fixed;left:0;top:0;z-index:2993;width:26px;height:26px;pointer-events:none;opacity:0;transition:opacity .25s;
+    filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));}
+  .tut-cur.on{opacity:1;}
+  .tut-cur svg{display:block;width:26px;height:26px;}
+  .tut-rip{position:fixed;z-index:2992;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;pointer-events:none;
+    border:3px solid var(--accent,#00952b);animation:tutRip .55s ease-out forwards;}
+  @keyframes tutRip{from{transform:scale(.4);opacity:1;}to{transform:scale(4.2);opacity:0;}}
+  .tut-bar{position:fixed;z-index:2994;left:50%;transform:translateX(-50%);bottom:14px;width:calc(100% - 20px);max-width:760px;
+    background:#101215;color:#f2f4f6;border:1px solid #2c3138;border-radius:14px;overflow:hidden;
+    box-shadow:0 14px 44px rgba(0,0,0,.55);font-family:'Inter',sans-serif;transition:top .3s,bottom .3s;}
+  .tut-bar.top{bottom:auto;top:14px;}
+  .tut-prog{height:4px;background:#2c3138;}
+  .tut-prog b{display:block;height:100%;width:0;background:#00b233;transition:width .45s linear;}
+  .tut-body{padding:13px 14px 11px;}
+  .tut-kick{font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#4cc46c;margin-bottom:5px;
+    display:flex;justify-content:space-between;gap:10px;}
+  .tut-kick span:last-child{color:#8d949e;font-family:'Roboto Mono',monospace;letter-spacing:0;}
+  .tut-text{font-size:15.5px;line-height:1.45;font-weight:500;min-height:2.9em;}
+  .tut-ctl{display:flex;align-items:center;gap:8px;margin-top:10px;}
+  .tut-ctl button{height:36px;min-width:42px;padding:0 12px;border-radius:9px;border:1px solid #3a4048;background:#1b1e23;color:#f2f4f6;
+    font:600 13px 'Inter',sans-serif;cursor:pointer;}
+  .tut-ctl button:active{opacity:.75;}
+  .tut-ctl .tut-pp{background:#00952b;border-color:#00952b;min-width:52px;}
+  .tut-ctl .tut-x{margin-left:auto;}
+  .tut-ov{position:fixed;inset:0;z-index:3000;background:rgba(8,10,12,.66);display:flex;align-items:center;justify-content:center;padding:20px;}
+  .tut-card{background:var(--panel,#1e2126);color:var(--text,#eef0f2);border:1px solid var(--line,#33383f);border-radius:16px;
+    padding:22px;max-width:400px;width:100%;text-align:center;box-shadow:0 14px 44px rgba(0,0,0,.5);font-family:'Inter',sans-serif;}
+  .tut-play{width:64px;height:64px;border-radius:50%;background:var(--accent,#00952b);color:#fff;font-size:24px;margin:0 auto 14px;
+    display:flex;align-items:center;justify-content:center;padding-left:5px;}
+  .tut-card h3{font-family:'Oswald',sans-serif;font-size:19px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;margin:0 0 8px;}
+  .tut-card p{font-size:14px;line-height:1.5;color:var(--text-dim,#9aa1ab);margin:0 0 18px;}
+  .tut-card .tut-acts{display:flex;gap:10px;}
+  .tut-card button{flex:1;min-height:44px;border-radius:10px;border:1px solid var(--line,#33383f);background:var(--panel-2,#262a31);
+    color:var(--text,#eef0f2);font:600 14px 'Inter',sans-serif;cursor:pointer;}
+  .tut-card button.pri{background:var(--accent,#00952b);border-color:var(--accent,#00952b);color:#fff;}
+  @media print{.tut-btn,#tutRoot,.tut-ov{display:none !important;}}
+  @media (prefers-reduced-motion:reduce){.tut-rip{animation:none;opacity:0;}}
+</style>
+<script>
+(function(){
+  'use strict';
+  const C = window.CAFFINI_TOUR; if (!C) return;
+  const L = {
+    it:{ btn:'Tutorial', kick:'Video tutorial', wTitle:'Video tutorial', wText:'Prima volta qui? Guarda in circa un minuto come funziona questa pagina. I valori mostrati sono solo di esempio.',
+         watch:'▶ Guarda', skip:'Salta', eTitle:'Fine del tutorial', eText:'Puoi rivederlo quando vuoi con il pulsante «Tutorial» in alto.', replay:'Rivedi', close:'Chiudi' },
+    en:{ btn:'Tutorial', kick:'Video tutorial', wTitle:'Video tutorial', wText:'First time here? See how this page works in about one minute. The values shown are examples only.',
+         watch:'▶ Watch', skip:'Skip', eTitle:'End of tutorial', eText:'You can watch it again any time with the “Tutorial” button at the top.', replay:'Replay', close:'Close' },
+    es:{ btn:'Tutorial', kick:'Videotutorial', wTitle:'Videotutorial', wText:'¿Primera vez aquí? Mira en aproximadamente un minuto cómo funciona esta página. Los valores mostrados son solo de ejemplo.',
+         watch:'▶ Ver', skip:'Omitir', eTitle:'Fin del tutorial', eText:'Puedes volver a verlo cuando quieras con el botón «Tutorial» de arriba.', replay:'Repetir', close:'Cerrar' },
+    de:{ btn:'Tutorial', kick:'Video-Tutorial', wTitle:'Video-Tutorial', wText:'Zum ersten Mal hier? In etwa einer Minute sehen Sie, wie diese Seite funktioniert. Die gezeigten Werte sind nur Beispiele.',
+         watch:'▶ Ansehen', skip:'Überspringen', eTitle:'Ende des Tutorials', eText:'Über die Schaltfläche „Tutorial“ oben können Sie es jederzeit erneut ansehen.', replay:'Wiederholen', close:'Schließen' },
+    fr:{ btn:'Tutoriel', kick:'Tutoriel vidéo', wTitle:'Tutoriel vidéo', wText:"Première visite ? Découvrez en une minute environ comment fonctionne cette page. Les valeurs affichées sont de simples exemples.",
+         watch:'▶ Regarder', skip:'Passer', eTitle:'Fin du tutoriel', eText:'Vous pouvez le revoir à tout moment avec le bouton « Tutoriel » en haut.', replay:'Revoir', close:'Fermer' }
+  };
+  const lang = () => { try { return (typeof currentLang === 'string' && L[currentLang]) ? currentLang : 'it'; } catch (e) { return 'it'; } };
+  const U = k => L[lang()][k];
+  const TX = k => { const d = C.texts[lang()] || C.texts.it; return d[k] || C.texts.it[k] || ''; };
+  const q = s => typeof s === 'function' ? s() : typeof s === 'string' ? document.querySelector(s) : s;
+  const safe = f => { try { return f && f(); } catch (e) { console.error('[tutorial]', e); } };
+  const fire = (e, t) => e.dispatchEvent(new Event(t, { bubbles:true }));
+  const CANCEL = {};
+
+  // ---- pulsante "Tutorial" nella barra in alto ----
+  const btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'tut-btn'; btn.id = 'tutBtn';
+  btn.innerHTML = '<i>▶</i><span></span>';
+  const bar0 = document.querySelector('.settings-bar'), themeBtn = document.getElementById('themeToggle');
+  if (bar0 && themeBtn && themeBtn.parentNode === bar0) bar0.insertBefore(btn, themeBtn); else document.body.appendChild(btn);
+  const setBtnLabel = () => { btn.querySelector('span').textContent = U('btn'); };
+  setBtnLabel();
+  document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setTimeout(setBtnLabel, 0)));
+
+  // ---- elementi del player ----
+  const root = document.createElement('div'); root.id = 'tutRoot'; root.hidden = true;
+  root.innerHTML = '<div class="tut-block"></div><div class="tut-spot none"></div>' +
+    '<div class="tut-cur"><svg viewBox="0 0 26 26"><path d="M4 2 L4 21 L9.2 16.4 L12.6 24 L16 22.5 L12.7 15 L19.5 14.6 Z" fill="#fff" stroke="#111" stroke-width="1.6" stroke-linejoin="round"/></svg></div>' +
+    '<div class="tut-bar" role="dialog" aria-live="polite"><div class="tut-prog"><b></b></div><div class="tut-body">' +
+    '<div class="tut-kick"><span class="tut-k"></span><span class="tut-n"></span></div><div class="tut-text"></div>' +
+    '<div class="tut-ctl"><button type="button" class="tut-prev" aria-label="Indietro">⏮</button><button type="button" class="tut-pp" aria-label="Pausa">❚❚</button>' +
+    '<button type="button" class="tut-next" aria-label="Avanti">⏭</button><button type="button" class="tut-x"></button></div></div></div>';
+  document.body.appendChild(root);
+  const spot = root.querySelector('.tut-spot'), cursor = root.querySelector('.tut-cur'), bar = root.querySelector('.tut-bar');
+  const elText = root.querySelector('.tut-text'), elN = root.querySelector('.tut-n'), elProg = root.querySelector('.tut-prog b'), elPP = root.querySelector('.tut-pp');
+
+  let active = false, paused = false, token = 0, idx = 0, snap = null, ov = null;
+  let targetFn = null, curFn = null, box = null, cur = { x:0, y:0 }, frameN = 0;
+
+  function frame(){
+    if (!active) return;
+    const t = targetFn ? safe(targetFn) : null;
+    let r;
+    if (t && t.isConnected && t.getClientRects().length) {
+      const b = t.getBoundingClientRect();
+      r = { x:b.left - 6, y:b.top - 6, w:b.width + 12, h:b.height + 12 };
+      spot.classList.remove('none');
+    } else { r = { x:innerWidth / 2, y:innerHeight / 2, w:0, h:0 }; spot.classList.add('none'); }
+    if (!box) box = r; else ['x','y','w','h'].forEach(k => { box[k] += (r[k] - box[k]) * 0.2; });
+    spot.style.left = box.x + 'px'; spot.style.top = box.y + 'px'; spot.style.width = box.w + 'px'; spot.style.height = box.h + 'px';
+    const p = curFn ? safe(curFn) : null;
+    if (p) { cur.x += (p.x - cur.x) * 0.17; cur.y += (p.y - cur.y) * 0.17; }
+    cursor.style.transform = 'translate(' + (cur.x - 4) + 'px,' + (cur.y - 2) + 'px)';
+    if (++frameN % 20 === 0 && r.w) bar.classList.toggle('top', (r.y + r.h / 2) > innerHeight * 0.52);
+    requestAnimationFrame(frame);
+  }
+  function sleep(ms, tk){
+    return new Promise((res, rej) => {
+      let t = 0;
+      const id = setInterval(() => {
+        if (tk !== token) { clearInterval(id); rej(CANCEL); return; }
+        if (!paused) t += 50;
+        if (t >= ms) { clearInterval(id); res(); }
+      }, 50);
+    });
+  }
+  function reveal(e){
+    if (!e || !e.getBoundingClientRect) return;
+    const b = e.getBoundingClientRect();
+    if (b.top < 70 || b.bottom > innerHeight - 190) e.scrollIntoView({ block: b.height > innerHeight * 0.6 ? 'start' : 'center', behavior:'smooth' });
+  }
+  function ripple(){
+    const r = document.createElement('div'); r.className = 'tut-rip';
+    r.style.left = cur.x + 'px'; r.style.top = cur.y + 'px';
+    root.appendChild(r); setTimeout(() => r.remove(), 600);
+  }
+  const api = tk => ({
+    $: q,
+    wait: ms => sleep(ms, tk),
+    spot: s => { targetFn = () => q(s); reveal(q(s)); },
+    async point(s){
+      reveal(q(s)); await sleep(250, tk);
+      curFn = () => { const e = q(s); if (!e) return null; const b = e.getBoundingClientRect(); return { x:b.left + b.width / 2, y:b.top + b.height / 2 }; };
+      cursor.classList.add('on'); await sleep(700, tk);
+    },
+    async click(s){ await this.point(s); ripple(); await sleep(170, tk); const e = q(s); if (e) e.click(); await sleep(380, tk); },
+    async type(s, val){
+      await this.point(s); ripple();
+      const e = q(s); if (!e) return;
+      e.value = ''; fire(e, 'input'); await sleep(200, tk);
+      let acc = '';
+      for (const ch of String(val)) {
+        acc += ch;
+        if (/[.,]$/.test(acc)) continue;          // i campi numerici rifiutano "2."
+        const e2 = q(s); if (!e2) return;
+        e2.value = acc; fire(e2, 'input'); await sleep(130, tk);
+      }
+      await sleep(260, tk);
+    }
+  });
+
+  function showStep(i){
+    const n = C.steps.length;
+    elText.textContent = TX(C.steps[i].text);
+    elN.textContent = (i + 1) + ' / ' + n;
+    root.querySelector('.tut-k').textContent = U('kick');
+    root.querySelector('.tut-x').textContent = U('close');
+    elProg.style.width = ((i + 1) / n * 100) + '%';
+  }
+  async function runStep(i){
+    const tk = ++token; idx = i;
+    const st = C.steps[i];
+    showStep(i);
+    curFn = null; cursor.classList.remove('on');
+    try {
+      if (st.before) safe(st.before);
+      targetFn = st.el ? () => q(st.el) : null;
+      if (st.el) { reveal(q(st.el)); await sleep(650, tk); } else await sleep(300, tk);
+      if (st.run) { try { await st.run(api(tk)); } catch (e) { if (e === CANCEL) throw e; console.error('[tutorial]', e); } }
+      cursor.classList.remove('on');
+      await sleep(st.hold || (1900 + TX(st.text).length * 42), tk);
+      if (i + 1 < C.steps.length) runStep(i + 1); else finish();
+    } catch (e) { if (e !== CANCEL) console.error('[tutorial]', e); }
+  }
+  function setPaused(p){ paused = p; elPP.textContent = p ? '▶' : '❚❚'; }
+  function closeOv(){ if (ov) { ov.remove(); ov = null; } }
+  function card(title, text, a, b, onA, onB){
+    closeOv();
+    ov = document.createElement('div'); ov.className = 'tut-ov';
+    ov.innerHTML = '<div class="tut-card" role="dialog" aria-modal="true"><div class="tut-play">▶</div><h3></h3><p></p>' +
+      '<div class="tut-acts"><button type="button"></button><button type="button" class="pri"></button></div></div>';
+    ov.querySelector('h3').textContent = title; ov.querySelector('p').textContent = text;
+    const bs = ov.querySelectorAll('button');
+    bs[0].textContent = b; bs[1].textContent = a;
+    bs[0].addEventListener('click', onB); bs[1].addEventListener('click', onA);
+    document.body.appendChild(ov); bs[1].focus();
+  }
+  function start(){
+    closeOv();
+    if (!active) snap = safe(C.snapshot);
+    safe(C.prepare);
+    window.scrollTo(0, 0);
+    box = null; cur = { x:innerWidth / 2, y:innerHeight * 0.45 }; targetFn = null; curFn = null;
+    setPaused(false); bar.style.display = '';
+    root.hidden = false;
+    if (!active) { active = true; requestAnimationFrame(frame); }
+    runStep(0);
+  }
+  function stop(){
+    token++; closeOv();
+    active = false; root.hidden = true;
+    safe(() => C.restore && C.restore(snap)); snap = null;
+    window.scrollTo(0, 0);
+  }
+  function finish(){
+    token++; targetFn = null; curFn = null; cursor.classList.remove('on'); bar.style.display = 'none';
+    card(U('eTitle'), U('eText'), U('close'), U('replay'), stop, start);
+  }
+  function welcome(){
+    try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    card(U('wTitle'), U('wText'), U('watch'), U('skip'), start, closeOv);
+  }
+  btn.addEventListener('click', start);
+  root.querySelector('.tut-x').addEventListener('click', stop);
+  elPP.addEventListener('click', () => setPaused(!paused));
+  root.querySelector('.tut-prev').addEventListener('click', () => { setPaused(false); runStep(Math.max(0, idx - 1)); });
+  root.querySelector('.tut-next').addEventListener('click', () => { setPaused(false); if (idx + 1 < C.steps.length) runStep(idx + 1); else finish(); });
+  document.addEventListener('keydown', e => {
+    if (!active) return;
+    if (e.key === 'Escape') stop();
+    else if (e.key === ' ' && !ov) { e.preventDefault(); setPaused(!paused); }
+    else if (e.key === 'ArrowRight' && !ov) root.querySelector('.tut-next').click();
+    else if (e.key === 'ArrowLeft' && !ov) root.querySelector('.tut-prev').click();
+  });
+
+  // ---- primo utilizzo: proposta automatica (una sola volta per dispositivo) ----
+  const KEY = 'caffini_tutorial_' + C.id + '_v1';
+  let seen = false;
+  try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+  const force = /[?&#]tutorial\b/.test(location.search + location.hash);
+  if (!seen || force) setTimeout(welcome, 700);
+  window.CAFFINI_TOUR_START = start;
+})();
+</script>
+
 </body>
 </html>
